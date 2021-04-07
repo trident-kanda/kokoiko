@@ -1,13 +1,12 @@
-import Head from "next/head"
+import Head from "next/head";
+import Container from "../components/Container";
 export default function Home() {
   return (
-    <div>
+    <Container>
       <Head>
-        <title>
-          KOKOIKO
-        </title>
-        
+        <title>KOKOIKO</title>
       </Head>
-    </div>
-  )
+      <h1>hello</h1>
+    </Container>
+  );
 }
