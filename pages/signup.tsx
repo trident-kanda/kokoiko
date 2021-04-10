@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
-import { supabase } from "../supabase/key";
 import Container from "../components/Container";
 import Link from "next/link";
-import { signUp } from "../util/check";
+import { signUp, googleLogin } from "../supabase/auth";
+import Head from "next/head";
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,12 +36,11 @@ const Signup = () => {
     [setError]
   );
 
-  const googleLogin = () => {
-    const res = supabase.auth.signIn({ provider: "google" });
-    console.log(res);
-  };
   return (
     <Container>
+      <Head>
+        <title>KOKOIKO | signup</title>
+      </Head>
       <div className="bg-white shadow-sm rounded-lg p-5 ">
         <p className="font-bold">会員登録</p>
         <div className="h-4" />
@@ -51,7 +50,7 @@ const Signup = () => {
               onClick={googleLogin}
               className=" py-2  bg-googlered text-white rounded-lg  hover:bg-red-300 focus:outline-none w-52 "
             >
-              Googleで会員登録
+              Googleでログイン
             </button>
             <div className="h-4" />
           </div>

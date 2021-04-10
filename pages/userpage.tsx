@@ -2,7 +2,7 @@ import Head from "next/head";
 import Container from "../components/Container";
 import Bottomnav from "../components/Bottomnav";
 import Nav from "../components/Nav";
-export default function Home() {
+export default function userpage() {
   return (
     <div>
       <Container>

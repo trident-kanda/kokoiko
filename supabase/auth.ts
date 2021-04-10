@@ -23,10 +23,10 @@ export const logIn = async(email:string,password:string,setError:(s:string)=>voi
         console.log(error.message);
         switch (error.message) {
           case "Invalid email or password":
-            setError("存在しないアカウントです");
+            setError("存在しないアカウントです。");
             break;
           case "Unable to validate email address: invalid format":
-            setError("無効なメールアドレスです");
+            setError("無効なメールアドレスです。");
             break;
         }
       }
@@ -38,10 +38,10 @@ export const signUp = async(email:string ,password:string ,confirmPass:string ,s
         return;
       }
       if (password.length < 6) {
-        setError("パスワードは六文字以上必要です");
+        setError("パスワードは六文字以上必要です。");
       }
       if (password !== confirmPass) {
-        setError("確認パスワードが違います");
+        setError("確認パスワードが違います。");
         return;
       }
       if(!mailCheck(email)){
@@ -52,4 +52,15 @@ export const signUp = async(email:string ,password:string ,confirmPass:string ,s
         email: email,
         password: password,
       });
+      if(error){
+        switch(error.message){
+          case "A user with this email address has already been registered":
+            setError("登録済みのメールアドレスです。")
+          break;
+        }
+      }
+}
+
+export const googleLogin = () => {
+    supabase.auth.signIn({ provider: "google" });
 }

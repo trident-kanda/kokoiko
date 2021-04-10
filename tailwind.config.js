@@ -6,6 +6,10 @@ module.exports = {
       backgroundColor: {
         googlered: "#de5246",
       },
+      flex: {
+        8: "8 8 0%",
+        2: "2 2 0%",
+      },
     },
   },
   variants: {
