@@ -61,6 +61,6 @@ export const signUp = async(email:string ,password:string ,confirmPass:string ,s
       }
 }
 
-export const googleLogin = () => {
-    supabase.auth.signIn({ provider: "google" });
+export const googleLogin = async() => {
+     await supabase.auth.signIn({ provider: "google" })
 }
