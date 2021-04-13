@@ -3,6 +3,7 @@ import Container from "../components/Container";
 import Link from "next/link";
 import { logIn, googleLogin } from "../supabase/auth";
 import Head from "next/head";
+
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { supabase } from "../supabase/key";
 
 const Header = () => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
   return (
     <header className="h-16 bg-white shadow-sm border-b-2 border-green-500">
       <div className="py-1.5 px-4 sm:px-6 max-w-3xl lg:max-w-5xl mx-auto lg:px-8 h-full">
@@ -16,6 +16,7 @@ const Header = () => {
               className="py-2 bg-green-500 rounded-lg hover:bg-green-300 w-24 text-white focus:outline-none"
               onClick={() => {
                 supabase.auth.signOut();
+                push("/signin");
               }}
             >
               ログアウト
