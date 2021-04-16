@@ -1,53 +1,34 @@
 import { supabase } from "../supabase/key";
 
-const mailCheck = (mail:string) => {
-    const reg = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
-      return reg.test(mail)
+type loginProps = {
+  email:string
+  password:string
 }
-export const logIn = async(email:string,password:string,setError:(s:string)=>void) => {
-    
-    if (email === "" || password === "") {
-        setError("必須項目が未入力です。");
-        return;
-    }
-    if(!mailCheck(email)){
-        setError("メールアドレスが不適切です。");
-        return;
-    }
-      const { error } = await supabase.auth.signIn({
+type signinProps = {
+  email:string
+  password:string
+}
+
+export const logIn = async({email,password}:loginProps) => {
+      const { error ,user} = await supabase.auth.signIn({
         email: email,
         password: password,
-      });
-  
+      })
+    
       if (error) {
         console.log(error.message);
         switch (error.message) {
           case "Invalid email or password":
-            setError("存在しないアカウントです。");
+            console.log("存在しないアカウントです。");
             break;
           case "Unable to validate email address: invalid format":
-            setError("無効なメールアドレスです。");
+            console.log("無効なメールアドレスです。");
             break;
         }
       }
 }
 
-export const signUp = async(email:string ,password:string ,confirmPass:string ,setError:(s:string)=>void) => {
-    if (email === "" || password === "") {
-        setError("必要項目が未入力です。");
-        return;
-      }
-      if (password.length < 6) {
-        setError("パスワードは六文字以上必要です。");
-      }
-      if (password !== confirmPass) {
-        setError("確認パスワードが違います。");
-        return;
-      }
-      if(!mailCheck(email)){
-        setError("メールアドレスが不適切です。");
-        return;
-    }
+export const signUp = async({email,password}:signinProps) => {
       const { error } = await supabase.auth.signUp({
         email: email,
         password: password,
@@ -55,12 +36,12 @@ export const signUp = async(email:string ,password:string ,confirmPass:string ,s
       if(error){
         switch(error.message){
           case "A user with this email address has already been registered":
-            setError("登録済みのメールアドレスです。")
+            console.log("登録済みのメールアドレス")
           break;
         }
       }
 }
 
 export const googleLogin = async() => {
-     const {user} = await supabase.auth.signIn({ provider: "google" })
+  const {user} = await supabase.auth.signIn({ provider: "google" })
 }

@@ -3,7 +3,14 @@ import Container from "../components/Container";
 import Bottomnav from "../components/Bottomnav";
 import Nav from "../components/Nav";
 import Sidenav from "../components/Sidenav";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../lib/userContext";
+import { supabase } from "../supabase/key";
+import { useRouter } from "next/router";
 export default function Home() {
+  const { user, session } = useContext(UserContext);
+  const { push } = useRouter();
+  useEffect(() => {});
   return (
     <div>
       <Container>

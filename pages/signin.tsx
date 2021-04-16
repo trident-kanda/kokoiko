@@ -1,31 +1,22 @@
-import { useCallback, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
 import { logIn, googleLogin } from "../supabase/auth";
 import Head from "next/head";
+import { useForm } from "react-hook-form";
 
 const Signin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setError] = useState("");
-  const emailInput = useCallback(
-    (event) => {
-      setEmail(event.target.value);
-    },
-    [setEmail]
-  );
-  const passInput = useCallback(
-    (event) => {
-      setPassword(event.target.value);
-    },
-    [setPassword]
-  );
-  const setErrortext = useCallback(
-    (text: string) => {
-      setError(text);
-    },
-    [setError]
-  );
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
+  type form = {
+    email: string;
+    password: string;
+  };
+  const onSubmit = (data: form) => {
+    logIn(data);
+  };
 
   return (
     <Container>
@@ -45,38 +36,58 @@ const Signin = () => {
             </button>
             <div className="h-4" />
           </div>
-          <div className="md:flex-1">
-            <p className="font-bold">
+          <form className="md:flex-1" onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="email" className="font-bold">
               メールアドレス<span className=" text-red-500">*</span>
-              <span className="text-red-500 ml-6">{errorMessage}</span>
-            </p>
+              {errors.email && (
+                <span className="ml-3 text-red-500">
+                  {errors.email.message}
+                </span>
+              )}
+            </label>
             <input
+              placeholder="メールアドレス"
+              {...register("email", {
+                required: "必須項目です",
+                pattern: {
+                  value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  message: "メールアドレスが不適切です",
+                },
+              })}
               type="email"
               className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
-              onChange={emailInput}
             />
-            <p className="font-bold">
+            <label className="font-bold">
               パスワード<span className=" text-red-500">*</span>
-            </p>
+              {errors.password && (
+                <span className="ml-3 text-red-500">
+                  {errors.password.message}
+                </span>
+              )}
+            </label>
             <input
               type="password"
+              placeholder="パスワード(8文字以上)"
               className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
-              onChange={passInput}
+              {...register("password", {
+                required: "必須項目です",
+                pattern: {
+                  value: /^[a-z\d]{8,100}$/i,
+                  message: "パスワードは8文字以上です",
+                },
+              })}
             />
             <div className="h-4" />
-            <button
-              onClick={() => {
-                logIn(email, password, setErrortext);
-              }}
+            <input
+              type="submit"
               className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36"
-            >
-              ログイン
-            </button>
+              value="ログイン"
+            />
             <div className="h-4" />
             <Link href="/signup">
               <a className="font-bold hover:text-gray-400">会員登録はこちら</a>
             </Link>
-          </div>
+          </form>
         </div>
       </div>
     </Container>
