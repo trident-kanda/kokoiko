@@ -3,7 +3,17 @@ import Container from "../components/Container";
 import Bottomnav from "../components/Bottomnav";
 import Nav from "../components/Nav";
 import Sidenav from "../components/Sidenav";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../components/lib/userContext";
+import { useRouter } from "next/router";
 export default function recruiment() {
+  const { user, session } = useContext(UserContext);
+  const { replace } = useRouter();
+  useEffect(() => {
+    if (!user) {
+      replace("/signin");
+    }
+  });
   return (
     <div>
       <Container>

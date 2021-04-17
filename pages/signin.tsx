@@ -3,8 +3,18 @@ import Link from "next/link";
 import { logIn, googleLogin } from "../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
+import { UserContext } from "../components/lib/userContext";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 
 const Signin = () => {
+  const { user, session } = useContext(UserContext);
+  const { replace } = useRouter();
+  useEffect(() => {
+    if (user) {
+      replace("/");
+    }
+  }, [user]);
   const {
     handleSubmit,
     register,

@@ -4,15 +4,26 @@ import { supabase } from "../supabase/key";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Session, User } from "@supabase/supabase-js";
-import { UserContext } from "../lib/userContext";
+import { UserContext } from "../components/lib/userContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { pathname, push } = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const session = supabase.auth.session();
+    setSession(session);
+    setUser(session?.user ?? null);
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
+    );
+
+    return () => {
+      authListener?.unsubscribe();
+    };
   }, []);
 
   return (
