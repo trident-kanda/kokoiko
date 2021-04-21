@@ -4,7 +4,7 @@ import { supabase } from "../supabase/key";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Session, User } from "@supabase/supabase-js";
-import { UserContext } from "../components/lib/userContext";
+import { UserContext } from "../util/userContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, setUser] = useState<User | null>(null);

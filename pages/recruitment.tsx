@@ -4,7 +4,7 @@ import Bottomnav from "../components/Bottomnav";
 import Nav from "../components/Nav";
 import Sidenav from "../components/Sidenav";
 import { useContext, useEffect } from "react";
-import { UserContext } from "../components/lib/userContext";
+import { UserContext } from "../util/userContext";
 import { useRouter } from "next/router";
 export default function recruiment() {
   const { user, session } = useContext(UserContext);

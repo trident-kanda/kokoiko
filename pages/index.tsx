@@ -5,7 +5,7 @@ import Nav from "../components/Nav";
 import Sidenav from "../components/Sidenav";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { UserContext } from "../components/lib/userContext";
+import { UserContext } from "../util/userContext";
 
 export default function Home() {
   const { user, session } = useContext(UserContext);
