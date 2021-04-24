@@ -27,7 +27,6 @@ const Signin = () => {
   const onSubmit = (data: form) => {
     logIn(data);
   };
-
   return (
     <Container>
       <Head>
