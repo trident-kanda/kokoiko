@@ -5,6 +5,7 @@ import Sidenav from "../components/Sidenav";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../../util/userContext";
+import Main from "../components/Main";
 export default function Home() {
   const { user, session } = useContext(UserContext);
   const { replace } = useRouter();
@@ -21,12 +22,9 @@ export default function Home() {
             <title>KOKOIKO</title>
           </Head>
           <Nav />
-          <div className="lg:flex">
-            <div className=" h-96 bg-white  sm:rounded-lg shadow max-w-3xl flex-8 p-4"></div>
-            <div className=" lg:block flex-2 ml-5">
-              <Sidenav />
-            </div>
-          </div>
+          <Main>
+            <div className="h-96 bg-white  sm:rounded-lg shadow p-4"></div>
+          </Main>
         </Container>
       )}
     </div>

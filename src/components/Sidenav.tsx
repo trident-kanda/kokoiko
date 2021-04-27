@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import HomeIcon from "./Icon/HomeIcon";
 import RecruitIcon from "./Icon/RecruitIcon";
@@ -7,7 +6,7 @@ import UserIcon from "./Icon/UserIcon";
 const Sidenav = () => {
   const { pathname } = useRouter();
   return (
-    <nav className="bg-white rounded-lg  shadow  hidden lg:flex flex-col ">
+    <nav className="bg-white rounded-lg  shadow  flex flex-col ">
       <Link href="/">
         <a className="flex-1 py-4 flex items-center justify-center hover:bg-gray-200 h-20 rounded-t-lg">
           <div className="flex items-center justify-center h-full ">

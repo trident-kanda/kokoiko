@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import HomeIcon from "./Icon/HomeIcon";
 import RecruitIcon from "./Icon/RecruitIcon";
@@ -9,7 +8,7 @@ const Nav = () => {
   return (
     <nav className="h-20 flex fixed bottom-0  bg-white sm:rounded-lg shadow w-full sm:static sm:mb-6 lg:hidden">
       <Link href="/">
-        <a className="flex-1 py-2 flex items-center justify-center hover:bg-gray-200 sm:rounded-l-lg">
+        <a className=" w-1/3 py-2 flex items-center justify-center hover:bg-gray-200 sm:rounded-l-lg">
           <div className="flex items-center justify-center h-full">
             {pathname === "/" && (
               <>
@@ -27,7 +26,7 @@ const Nav = () => {
         </a>
       </Link>
       <Link href="/recruitment">
-        <a className="flex-1 py-2 flex items-center justify-center hover:bg-gray-200 border-r border-l">
+        <a className="w-1/3 py-2 flex items-center justify-center hover:bg-gray-200 border-r border-l">
           <div className="flex items-center justify-center h-full">
             {pathname === "/recruitment" && (
               <>
@@ -45,7 +44,7 @@ const Nav = () => {
         </a>
       </Link>
       <Link href="/userpage">
-        <a className="flex-1 py-2 flex items-center justify-center hover:bg-gray-200 sm:rounded-r-lg">
+        <a className="w-1/3 py-2 flex items-center justify-center hover:bg-gray-200 sm:rounded-r-lg">
           <div className="flex items-center justify-center h-full">
             {pathname === "/userpage" && (
               <>
