@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { supabase } from "../supabase/key";
+import { supabase } from "../../supabase/key";
 
 const Header = () => {
   const { pathname, push } = useRouter();

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
-import { signUp, googleLogin } from "../supabase/auth";
+import { signUp, googleLogin } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 

@@ -3,9 +3,9 @@ import Container from "../components/Container";
 import Nav from "../components/Nav";
 import Sidenav from "../components/Sidenav";
 import { useContext, useEffect } from "react";
-import { UserContext } from "../util/userContext";
+import { UserContext } from "../../util/userContext";
 import { useRouter } from "next/router";
-export default function userpage() {
+export default function recruiment() {
   const { user, session } = useContext(UserContext);
   const { replace } = useRouter();
   useEffect(() => {

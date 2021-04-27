@@ -1,9 +1,9 @@
 import Container from "../components/Container";
 import Link from "next/link";
-import { logIn, googleLogin } from "../supabase/auth";
+import { logIn, googleLogin } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
-import { UserContext } from "../util/userContext";
+import { UserContext } from "../../util/userContext";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 
