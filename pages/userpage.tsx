@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Container from "../components/Container";
-import Bottomnav from "../components/Bottomnav";
 import Nav from "../components/Nav";
 import Sidenav from "../components/Sidenav";
 import { useContext, useEffect } from "react";
@@ -28,7 +27,6 @@ export default function userpage() {
           </div>
         </div>
       </Container>
-      <Bottomnav />
     </div>
   );
 }
