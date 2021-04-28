@@ -9,7 +9,7 @@ export default function Home() {
   const { user, session } = useContext(UserContext);
   const { replace } = useRouter();
   useEffect(() => {
-    if (!user) {
+    if (user === null) {
       replace("/signin");
     }
   }, [user]);

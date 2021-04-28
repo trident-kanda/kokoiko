@@ -7,8 +7,8 @@ import { Session, User } from "@supabase/supabase-js";
 import { UserContext } from "../../util/userContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [session, setSession] = useState<Session | null | undefined>(undefined);
 
   useEffect(() => {
     const session = supabase.auth.session();
