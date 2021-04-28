@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Container from "../components/Container";
 import Nav from "../components/Nav";
-import Sidenav from "../components/Sidenav";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../../util/userContext";

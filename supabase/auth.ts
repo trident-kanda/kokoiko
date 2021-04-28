@@ -1,3 +1,5 @@
+import { User } from "@supabase/gotrue-js";
+import { Dispatch, SetStateAction } from "react";
 import { supabase } from "../supabase/key";
 
 type loginProps = {
@@ -9,7 +11,8 @@ type signinProps = {
   password:string
 }
 
-export const logIn = async({email,password}:loginProps) => {
+
+export const signIn = async({email,password}:loginProps,setErrorMessage:Dispatch<SetStateAction<string | null>>) => {
       const { error ,user} = await supabase.auth.signIn({
         email: email,
         password: password,
@@ -19,24 +22,25 @@ export const logIn = async({email,password}:loginProps) => {
         console.log(error.message);
         switch (error.message) {
           case "Invalid email or password":
-            console.log("存在しないアカウントです。");
-            break;
-          case "Unable to validate email address: invalid format":
-            console.log("無効なメールアドレスです。");
+            setErrorMessage("メールアドレスかパスワードが違います。");
             break;
         }
       }
 }
 
-export const signUp = async({email,password}:signinProps) => {
-      const { error } = await supabase.auth.signUp({
+export const signUp = async({email,password}:signinProps,setErrorMessage:Dispatch<SetStateAction<string | null>>) => {
+      const { error,user } = await supabase.auth.signUp({
         email: email,
         password: password,
       });
+      if(user){
+        return user
+      }
       if(error){
+        console.log(error.message)
         switch(error.message){
           case "A user with this email address has already been registered":
-            console.log("登録済みのメールアドレス")
+            setErrorMessage("登録済みのメールアドレス")
           break;
         }
       }
@@ -44,4 +48,10 @@ export const signUp = async({email,password}:signinProps) => {
 
 export const googleLogin = async() => {
   const {user} = await supabase.auth.signIn({ provider: "google" })
+}
+
+export const changeName = async(user:any,name:string,) => {
+    await supabase.auth.update({
+      data:{full_name: name}
+    })
 }

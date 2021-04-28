@@ -1,11 +1,23 @@
-import { useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
-import { signUp, googleLogin } from "../../supabase/auth";
+import { signUp, googleLogin, changeName } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
+import { UserContext } from "../../util/userContext";
+import { useRouter } from "next/router";
+import { User } from "@supabase/supabase-js";
 
 const Signup = () => {
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
+  const { user, session } = useContext(UserContext);
+  const { replace } = useRouter();
+  useEffect(() => {
+    if (user) {
+      replace("/");
+    }
+  }, [user]);
+
   const {
     handleSubmit,
     register,
@@ -13,14 +25,18 @@ const Signup = () => {
     watch,
   } = useForm();
   type form = {
+    name: string;
     email: string;
     password: string;
     cfmpassword: string;
   };
   const password = useRef({});
   password.current = watch("password", "");
-  const onSubmit = (data: form) => {
-    signUp(data);
+  const onSubmit = async (data: form) => {
+    const user: User | undefined = await signUp(data, setErrorMessage);
+    if (user) {
+      changeName(user, data.name);
+    }
   };
   return (
     <Container>
@@ -41,6 +57,20 @@ const Signup = () => {
             <div className="h-4" />
           </div>
           <form className="md:flex-1" onSubmit={handleSubmit(onSubmit)}>
+            <label htmlFor="name" className="font-bold">
+              名前<span className=" text-red-500">*</span>
+              {errors.text && (
+                <span className="ml-3 text-red-500">{errors.text.message}</span>
+              )}
+            </label>
+            <input
+              placeholder="名前"
+              {...register("name", {
+                required: "必須項目です",
+              })}
+              type="text"
+              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
+            />
             <label htmlFor="email" className="font-bold">
               メールアドレス<span className=" text-red-500">*</span>
               {errors.email && (
@@ -48,8 +78,14 @@ const Signup = () => {
                   {errors.email.message}
                 </span>
               )}
+              {errorMessage && (
+                <span className="ml-3 text-red-500">{errorMessage}</span>
+              )}
             </label>
             <input
+              onClick={() => {
+                setErrorMessage(null);
+              }}
               placeholder="メールアドレス"
               {...register("email", {
                 required: "必須項目です",

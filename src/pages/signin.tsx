@@ -1,13 +1,14 @@
 import Container from "../components/Container";
 import Link from "next/link";
-import { logIn, googleLogin } from "../../supabase/auth";
+import { signIn, googleLogin } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../../util/userContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 const Signin = () => {
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const { user, session } = useContext(UserContext);
   const { replace } = useRouter();
   useEffect(() => {
@@ -25,7 +26,7 @@ const Signin = () => {
     password: string;
   };
   const onSubmit = (data: form) => {
-    logIn(data);
+    signIn(data, setErrorMessage);
   };
   return (
     <Container>
@@ -53,8 +54,14 @@ const Signin = () => {
                   {errors.email.message}
                 </span>
               )}
+              {errorMessage && (
+                <span className="ml-3 text-red-500">{errorMessage}</span>
+              )}
             </label>
             <input
+              onClick={() => {
+                setErrorMessage(null);
+              }}
               placeholder="メールアドレス"
               {...register("email", {
                 required: "必須項目です",
