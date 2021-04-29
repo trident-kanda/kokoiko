@@ -8,6 +8,8 @@ import Main from "../components/Main";
 import GoogleMap from "../components/GoogleMap";
 import SearchBox from "../components/SearchBox";
 import { useForm } from "react-hook-form";
+import TextArea from "../components/TextArea";
+import Select from "../components/Slect";
 export default function recruiment() {
   type formProps = {};
   const { user, session } = useContext(UserContext);
@@ -43,6 +45,8 @@ export default function recruiment() {
     if (latLng === null) {
       mapErrorSet("タップピンを立ててください");
     }
+    console.log(data);
+    console.log(latLng);
   };
 
   const mapClick = ({ x, y, lat, lng, event }: any) => {
@@ -103,10 +107,7 @@ export default function recruiment() {
                   </span>
                 )}
               </label>
-              <textarea
-                {...register("detailsPlace", { required: "必須項目です。" })}
-                className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
-              ></textarea>
+              <TextArea register={register} name="detailsPlace" />
               <label className="text-lg font-bold text-gray-700 ">
                 概要
                 {errors.overview && (
@@ -115,25 +116,11 @@ export default function recruiment() {
                   </span>
                 )}
               </label>
-              <textarea
-                {...register("overview", { required: "必須項目です。" })}
-                className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
-              ></textarea>
+              <TextArea register={register} name="overview" />
               <label className="text-lg font-bold text-gray-700 ">
                 募集人数
               </label>
-              <select
-                {...register("numberPeople")}
-                className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
-              >
-                {peopleArray.map((number) => {
-                  return (
-                    <option key={number} value={number}>
-                      {number}人
-                    </option>
-                  );
-                })}
-              </select>
+              <Select register={register} name="numberPeople" />
               <div className="h-4" />
               <button className="block w-full focus:outline-none  rounded bg-green-500 text-white py-2 ">
                 投稿
