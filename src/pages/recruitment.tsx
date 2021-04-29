@@ -18,8 +18,13 @@ export default function recruiment() {
   const [maps, setMaps] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [apiReady, setReady] = useState(false);
+  const [mapError, mapErrorSet] = useState<null | string>(null);
   const peopleArray = [1, 2, 3, 4, 5];
-  const { handleSubmit, register } = useForm();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
   const handleApiLoaded = ({ map, maps }: any) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((postion) => {
@@ -35,7 +40,9 @@ export default function recruiment() {
   };
 
   const onSubmit = (data: formProps) => {
-    console.log(data);
+    if (latLng === null) {
+      mapErrorSet("タップピンを立ててください");
+    }
   };
 
   const mapClick = ({ x, y, lat, lng, event }: any) => {
@@ -74,6 +81,11 @@ export default function recruiment() {
             <h2 className=" text-lg font-bold text-gray-700 ">
               集合場所
               <span className="ml-2 text-gray-500">タップ/クリックで選択</span>
+              {mapError && !latLng && (
+                <span className=" text-red-500 block">
+                  場所を設定してください。
+                </span>
+              )}
             </h2>
             {apiReady && <SearchBox maps={maps} map={map} />}
             <GoogleMap
@@ -85,14 +97,26 @@ export default function recruiment() {
             <form className="" onSubmit={handleSubmit(onSubmit)}>
               <label className="text-lg font-bold text-gray-700 ">
                 集合場所詳細
+                {errors.detailsPlace && (
+                  <span className="text-lg font-bold text-red-500 ml-2">
+                    {errors.detailsPlace.message}
+                  </span>
+                )}
               </label>
               <textarea
-                {...register("detailsPlace")}
+                {...register("detailsPlace", { required: "必須項目です。" })}
                 className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
               ></textarea>
-              <label className="text-lg font-bold text-gray-700 ">概要</label>
+              <label className="text-lg font-bold text-gray-700 ">
+                概要
+                {errors.overview && (
+                  <span className="text-lg font-bold text-red-500 ml-2">
+                    {errors.overview.message}
+                  </span>
+                )}
+              </label>
               <textarea
-                {...register("overview")}
+                {...register("overview", { required: "必須項目です。" })}
                 className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
               ></textarea>
               <label className="text-lg font-bold text-gray-700 ">
