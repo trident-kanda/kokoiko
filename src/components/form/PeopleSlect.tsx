@@ -1,8 +1,8 @@
-const Select = ({ register, name }: any) => {
+const PeopleSelect = ({ register }: any) => {
   const peopleArray = [1, 2, 3, 4, 5];
   return (
     <select
-      {...register(name)}
+      {...register("numberPeople")}
       className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
     >
       {peopleArray.map((number) => {
@@ -16,4 +16,4 @@ const Select = ({ register, name }: any) => {
   );
 };
 
-export default Select;
+export default PeopleSelect;

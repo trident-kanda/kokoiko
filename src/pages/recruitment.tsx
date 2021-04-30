@@ -8,8 +8,10 @@ import Main from "../components/Main";
 import GoogleMap from "../components/GoogleMap";
 import SearchBox from "../components/SearchBox";
 import { useForm } from "react-hook-form";
-import TextArea from "../components/TextArea";
-import Select from "../components/Slect";
+import TextArea from "../components/form/TextArea";
+import ErrorLabel from "../components/form/ErrorLabel";
+import Label from "../components/form/Label";
+import PeopleSelect from "../components/form/PeopleSlect";
 export default function recruiment() {
   type formProps = {};
   const { user, session } = useContext(UserContext);
@@ -21,7 +23,6 @@ export default function recruiment() {
   const [marker, setMarker] = useState<any>(null);
   const [apiReady, setReady] = useState(false);
   const [mapError, mapErrorSet] = useState<null | string>(null);
-  const peopleArray = [1, 2, 3, 4, 5];
   const {
     handleSubmit,
     register,
@@ -99,28 +100,12 @@ export default function recruiment() {
               onClick={mapClick}
             ></GoogleMap>
             <form className="" onSubmit={handleSubmit(onSubmit)}>
-              <label className="text-lg font-bold text-gray-700 ">
-                集合場所詳細
-                {errors.detailsPlace && (
-                  <span className="text-lg font-bold text-red-500 ml-2">
-                    {errors.detailsPlace.message}
-                  </span>
-                )}
-              </label>
+              <ErrorLabel name="集合場所詳細" errors={errors} />
               <TextArea register={register} name="detailsPlace" />
-              <label className="text-lg font-bold text-gray-700 ">
-                概要
-                {errors.overview && (
-                  <span className="text-lg font-bold text-red-500 ml-2">
-                    {errors.overview.message}
-                  </span>
-                )}
-              </label>
+              <ErrorLabel name="概要" errors={errors} />
               <TextArea register={register} name="overview" />
-              <label className="text-lg font-bold text-gray-700 ">
-                募集人数
-              </label>
-              <Select register={register} name="numberPeople" />
+              <Label name="募集人数" />
+              <PeopleSelect register={register} />
               <div className="h-4" />
               <button className="block w-full focus:outline-none  rounded bg-green-500 text-white py-2 ">
                 投稿
