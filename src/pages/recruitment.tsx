@@ -2,7 +2,6 @@ import Head from "next/head";
 import Container from "../components/Container";
 import Nav from "../components/Nav";
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../util/userContext";
 import { useRouter } from "next/router";
 import Main from "../components/Main";
 import GoogleMap from "../components/GoogleMap";
@@ -12,10 +11,10 @@ import TextArea from "../components/form/TextArea";
 import ErrorLabel from "../components/form/ErrorLabel";
 import Label from "../components/form/Label";
 import PeopleSelect from "../components/form/PeopleSlect";
+
 export default function recruiment() {
   type formProps = {};
-  const { user, session } = useContext(UserContext);
-  const { replace } = useRouter();
+
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
   const [latLng, setLatLng] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
@@ -67,12 +66,6 @@ export default function recruiment() {
     );
     map.panTo(position);
   };
-
-  useEffect(() => {
-    if (user === null) {
-      replace("/signin");
-    }
-  }, [user]);
 
   return (
     <div>

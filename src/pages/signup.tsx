@@ -1,22 +1,15 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
 import { signUp, googleLogin, changeName } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
-import { UserContext } from "../../util/userContext";
-import { useRouter } from "next/router";
 import { User } from "@supabase/supabase-js";
+import { GetServerSideProps } from "next";
+import { supabase } from "../../supabase/key";
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  const { user, session } = useContext(UserContext);
-  const { replace } = useRouter();
-  useEffect(() => {
-    if (user) {
-      replace("/");
-    }
-  }, [user]);
 
   const {
     handleSubmit,
@@ -157,3 +150,18 @@ const Signup = () => {
 };
 
 export default Signup;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  if (user) {
+    return {
+      props: {},
+      redirect: { destination: "/", permanent: false },
+    };
+  }
+  return {
+    props: {
+      user,
+    },
+  };
+};

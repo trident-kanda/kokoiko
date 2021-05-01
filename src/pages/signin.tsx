@@ -3,19 +3,13 @@ import Link from "next/link";
 import { signIn, googleLogin } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
-import { UserContext } from "../../util/userContext";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
+import { GetServerSideProps } from "next";
+import { supabase } from "../../supabase/key";
 
 const Signin = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  const { user, session } = useContext(UserContext);
-  const { replace } = useRouter();
-  useEffect(() => {
-    if (user) {
-      replace("/");
-    }
-  }, [user]);
+
   const {
     handleSubmit,
     register,
@@ -111,3 +105,18 @@ const Signin = () => {
 };
 
 export default Signin;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  if (user) {
+    return {
+      props: {},
+      redirect: { destination: "/", permanent: false },
+    };
+  }
+  return {
+    props: {
+      user,
+    },
+  };
+};
