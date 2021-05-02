@@ -11,6 +11,8 @@ import TextArea from "../components/form/TextArea";
 import ErrorLabel from "../components/form/ErrorLabel";
 import Label from "../components/form/Label";
 import PeopleSelect from "../components/form/PeopleSlect";
+import DateInput from "../components/form/DateInput";
+import TimeInput from "../components/form/TimeInput";
 
 export default function recruiment() {
   type formProps = {};
@@ -93,12 +95,16 @@ export default function recruiment() {
               onClick={mapClick}
             ></GoogleMap>
             <form className="" onSubmit={handleSubmit(onSubmit)}>
-              <ErrorLabel name="集合場所詳細" errors={errors} />
+              <ErrorLabel name="集合場所詳細" errors={errors.detailsPlace} />
               <TextArea register={register} name="detailsPlace" />
-              <ErrorLabel name="概要" errors={errors} />
+              <ErrorLabel name="概要" errors={errors.overview} />
               <TextArea register={register} name="overview" />
               <Label name="募集人数" />
               <PeopleSelect register={register} />
+              <ErrorLabel name="日付" errors={errors.date} />
+              <DateInput register={register} />
+              <ErrorLabel name="時間" errors={errors.time} />
+              <TimeInput register={register} />
               <div className="h-4" />
               <button className="block w-full focus:outline-none  rounded bg-green-500 text-white py-2 ">
                 投稿
