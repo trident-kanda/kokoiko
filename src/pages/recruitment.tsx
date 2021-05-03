@@ -95,15 +95,15 @@ export default function recruiment() {
               onClick={mapClick}
             ></GoogleMap>
             <form className="" onSubmit={handleSubmit(onSubmit)}>
-              <ErrorLabel name="集合場所詳細" errors={errors.detailsPlace} />
+              <ErrorLabel name="集合場所詳細" error={errors.detailsPlace} />
               <TextArea register={register} name="detailsPlace" />
-              <ErrorLabel name="概要" errors={errors.overview} />
+              <ErrorLabel name="概要" error={errors.overview} />
               <TextArea register={register} name="overview" />
               <Label name="募集人数" />
               <PeopleSelect register={register} />
-              <ErrorLabel name="日付" errors={errors.date} />
+              <ErrorLabel name="日付" error={errors.date} />
               <DateInput register={register} />
-              <ErrorLabel name="時間" errors={errors.time} />
+              <ErrorLabel name="時間" error={errors.time} />
               <TimeInput register={register} />
               <div className="h-4" />
               <button className="block w-full focus:outline-none  rounded bg-green-500 text-white py-2 ">

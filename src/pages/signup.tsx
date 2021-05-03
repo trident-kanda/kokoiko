@@ -110,7 +110,7 @@ const Signup = () => {
                 },
               })}
             />
-            <label className="font-bold">
+            <label className="font-bold text">
               パスワード(確認用)<span className=" text-red-500">*</span>
               {errors.cfmpassword && (
                 <span className="ml-3 text-red-500">
@@ -133,11 +133,9 @@ const Signup = () => {
               })}
             />
             <div className="h-4" />
-            <input
-              type="submit"
-              className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36"
-              value="会員登録"
-            />
+            <button className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36">
+              会員登録
+            </button>
             <div className="h-4" />
             <Link href="/signin">
               <a className="font-bold hover:text-gray-400">ログインはこちら</a>

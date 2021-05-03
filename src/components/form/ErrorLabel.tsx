@@ -1,15 +1,14 @@
 type labelProps = {
   name: string;
-  errors: any;
+  error: any;
 };
-const ErrorLabel = ({ name, errors }: labelProps) => {
-  console.log(errors);
+const ErrorLabel = ({ name, error }: labelProps) => {
   return (
     <label className="text-lg font-bold text-gray-700 ">
       {name}
-      {errors && (
+      {error && (
         <span className="text-lg font-bold text-red-500 ml-2">
-          {errors.message}
+          {error.message}
         </span>
       )}
     </label>

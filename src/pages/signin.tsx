@@ -88,11 +88,9 @@ const Signin = () => {
               })}
             />
             <div className="h-4" />
-            <input
-              type="submit"
-              className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36"
-              value="ログイン"
-            />
+            <button className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36">
+              ログイン
+            </button>
             <div className="h-4" />
             <Link href="/signup">
               <a className="font-bold hover:text-gray-400">会員登録はこちら</a>
