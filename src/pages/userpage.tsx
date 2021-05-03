@@ -2,6 +2,7 @@ import Head from "next/head";
 import Container from "../components/Container";
 import Nav from "../components/Nav";
 import Main from "../components/Main";
+import Input from "../components/form/Input";
 export default function userpage() {
   return (
     <div>

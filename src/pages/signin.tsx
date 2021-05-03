@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
+import Input from "../components/form/Input";
+import ErrorLabel from "../components/form/ErrorLabel";
 
 const Signin = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
@@ -41,51 +43,34 @@ const Signin = () => {
             <div className="h-4" />
           </div>
           <form className="md:flex-1" onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="email" className="font-bold">
-              メールアドレス<span className=" text-red-500">*</span>
-              {errors.email && (
-                <span className="ml-3 text-red-500">
-                  {errors.email.message}
-                </span>
-              )}
-              {errorMessage && (
-                <span className="ml-3 text-red-500">{errorMessage}</span>
-              )}
-            </label>
-            <input
-              onClick={() => {
-                setErrorMessage(null);
-              }}
-              placeholder="メールアドレス"
-              {...register("email", {
-                required: "必須項目です",
-                pattern: {
-                  value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                  message: "メールアドレスが不適切です",
-                },
-              })}
-              type="email"
-              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
+            <ErrorLabel
+              name="メールアドレス"
+              error={errors.email}
+              anotherError={errorMessage}
+              required={true}
             />
-            <label className="font-bold">
-              パスワード<span className=" text-red-500">*</span>
-              {errors.password && (
-                <span className="ml-3 text-red-500">
-                  {errors.password.message}
-                </span>
-              )}
-            </label>
-            <input
+            <Input
+              type="email"
+              placeholder="メールアドレス"
+              register={register}
+              name="email"
+              value={
+                /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+              }
+              message="メールアドレスが不適切です"
+            />
+            <ErrorLabel
+              name="パスワード"
+              error={errors.password}
+              required={true}
+            />
+            <Input
               type="password"
               placeholder="パスワード(8文字以上)"
-              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
-              {...register("password", {
-                required: "必須項目です",
-                pattern: {
-                  value: /^[a-z\d]{8,100}$/i,
-                  message: "パスワードは8文字以上です",
-                },
-              })}
+              register={register}
+              name="password"
+              value={/^[a-z\d]{8,100}$/i}
+              message="パスワードは8文字以上です"
             />
             <div className="h-4" />
             <button className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36">

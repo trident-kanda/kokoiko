@@ -1,7 +1,7 @@
 const DateInput = ({ register }: any) => {
   return (
     <input
-      className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
+      className="block w-full focus:outline-none focus:border-green-500 border-gray-500 border-2 rounded px-2 py-1"
       {...register("date", {
         required: "必須項目です。",
         pattern: {
@@ -10,6 +10,7 @@ const DateInput = ({ register }: any) => {
         },
       })}
       placeholder="2020/01/31"
+      autoComplete="off"
     />
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
 import { signUp, googleLogin, changeName } from "../../supabase/auth";
@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { User } from "@supabase/supabase-js";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
+import Input from "../components/form/Input";
+import ErrorLabel from "../components/form/ErrorLabel";
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
@@ -50,87 +52,55 @@ const Signup = () => {
             <div className="h-4" />
           </div>
           <form className="md:flex-1" onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="name" className="font-bold">
-              名前<span className=" text-red-500">*</span>
-              {errors.text && (
-                <span className="ml-3 text-red-500">{errors.text.message}</span>
-              )}
-            </label>
-            <input
+            <ErrorLabel name="名前" error={errors.name} required={true} />
+            <Input
               placeholder="名前"
-              {...register("name", {
-                required: "必須項目です",
-              })}
+              name="name"
               type="text"
-              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
+              register={register}
             />
-            <label htmlFor="email" className="font-bold">
-              メールアドレス<span className=" text-red-500">*</span>
-              {errors.email && (
-                <span className="ml-3 text-red-500">
-                  {errors.email.message}
-                </span>
-              )}
-              {errorMessage && (
-                <span className="ml-3 text-red-500">{errorMessage}</span>
-              )}
-            </label>
-            <input
-              onClick={() => {
-                setErrorMessage(null);
-              }}
-              placeholder="メールアドレス"
-              {...register("email", {
-                required: "必須項目です",
-                pattern: {
-                  value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                  message: "メールアドレスが不適切です",
-                },
-              })}
+            <ErrorLabel
+              name="メールアドレス"
+              error={errors.email}
+              anotherError={errorMessage}
+              required={true}
+            />
+            <Input
               type="email"
-              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
+              placeholder="メールアドレス"
+              register={register}
+              name="email"
+              value={
+                /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+              }
+              message="メールアドレスが不適切です"
             />
-            <label className="font-bold">
-              パスワード<span className=" text-red-500">*</span>
-              {errors.password && (
-                <span className="ml-3 text-red-500">
-                  {errors.password.message}
-                </span>
-              )}
-            </label>
-            <input
+            <ErrorLabel
+              name="パスワード"
+              error={errors.password}
+              required={true}
+            />
+            <Input
               type="password"
               placeholder="パスワード(8文字以上)"
-              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
-              {...register("password", {
-                required: "必須項目です",
-                pattern: {
-                  value: /^[a-z\d]{8,100}$/i,
-                  message: "パスワードは8文字以上です",
-                },
-              })}
+              register={register}
+              name="password"
+              value={/^[a-z\d]{8,100}$/i}
+              message="パスワードは8文字以上です"
             />
-            <label className="font-bold text">
-              パスワード(確認用)<span className=" text-red-500">*</span>
-              {errors.cfmpassword && (
-                <span className="ml-3 text-red-500">
-                  {errors.cfmpassword.message}
-                </span>
-              )}
-            </label>
-            <input
+            <ErrorLabel
+              name="パスワード(確認用)"
+              error={errors.cfmpassword}
+              required={true}
+            />
+            <Input
               type="password"
               placeholder="パスワード(確認用)"
-              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300"
-              {...register("cfmpassword", {
-                required: "必須項目です",
-                pattern: {
-                  value: /^[a-z\d]{8,100}$/i,
-                  message: "パスワードは8文字以上です",
-                },
-                validate: (value) =>
-                  value === password.current || "パスワードが一致しません",
-              })}
+              register={register}
+              name="cfmpassword"
+              value={/^[a-z\d]{8,100}$/i}
+              message="パスワードは8文字以上です"
+              validate={password.current}
             />
             <div className="h-4" />
             <button className="py-2 text-white rounded-lg  bg-green-500 hover:bg-green-300 focus:outline-none w-36">

@@ -3,7 +3,7 @@ const PeopleSelect = ({ register }: any) => {
   return (
     <select
       {...register("numberPeople")}
-      className="block w-full focus:outline-none focus:border-green-500 p-1 border-gray-500 border-2 rounded"
+      className="block w-full focus:outline-none focus:border-green-500  border-gray-500 border-2 rounded px-2 py-1"
     >
       {peopleArray.map((number) => {
         return (
