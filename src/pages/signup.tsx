@@ -9,6 +9,7 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
+import { setUserData } from "../../graphql/query";
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
@@ -31,6 +32,7 @@ const Signup = () => {
     const user: User | undefined = await signUp(data, setErrorMessage);
     if (user) {
       changeName(user, data.name);
+      setUserData(user.id, data.name);
     }
   };
   return (

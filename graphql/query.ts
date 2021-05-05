@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://kokoiko.herokuapp.com/v1/graphql",
+  uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
 });
 
@@ -25,6 +25,5 @@ export const post = async ({ data, latLng }: postProps) => {
   console.log(latLng);
 };
 
-export const createUser = async () => {
-
+export const setUserData = async (id:string,name:string) => {    
 }
