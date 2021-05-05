@@ -22,7 +22,7 @@ const Input = ({
       <input
         type={type}
         placeholder={placeholder}
-        className="block w-full focus:outline-none focus:border-green-500  border-gray-500 border-2 rounded px-2 py-1"
+        className="block w-full focus:outline-none focus:border-green-500  border-gray-500 border rounded px-2 py-1"
         {...register(name, {
           required: "必須項目です",
           pattern: {

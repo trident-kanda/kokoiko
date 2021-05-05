@@ -1,7 +1,7 @@
 const TimeInput = ({ register }: any) => {
   return (
     <input
-      className="block w-full focus:outline-none focus:border-green-500  border-gray-500 border-2 rounded px-2 py-1"
+      className="block w-full focus:outline-none focus:border-green-500  border-gray-500 border rounded px-2 py-1"
       {...register("time", {
         required: "必須項目です。",
         pattern: {
@@ -9,6 +9,7 @@ const TimeInput = ({ register }: any) => {
           message: "正しい時刻を入力してください。",
         },
       })}
+      maxLength="5"
       placeholder="08:00"
       autoComplete="off"
     />

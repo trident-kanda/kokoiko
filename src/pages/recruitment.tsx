@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Container from "../components/Container";
 import Nav from "../components/Nav";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import Main from "../components/Main";
 import GoogleMap from "../components/GoogleMap";
 import SearchBox from "../components/SearchBox";
@@ -10,12 +9,18 @@ import { useForm } from "react-hook-form";
 import TextArea from "../components/form/TextArea";
 import ErrorLabel from "../components/form/ErrorLabel";
 import Label from "../components/form/Label";
-import PeopleSelect from "../components/form/PeopleSlect";
+import Selecter from "../components/form/Selecter";
 import DateInput from "../components/form/DateInput";
 import TimeInput from "../components/form/TimeInput";
 
 export default function recruiment() {
-  type formProps = {};
+  type formProps = {
+    date: string;
+    detailPlace: string;
+    numberPeople: string;
+    overview: string;
+    time: string;
+  };
 
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
   const [latLng, setLatLng] = useState<any>(null);
@@ -96,11 +101,21 @@ export default function recruiment() {
             ></GoogleMap>
             <form className="" onSubmit={handleSubmit(onSubmit)}>
               <ErrorLabel name="集合場所詳細" error={errors.detailsPlace} />
-              <TextArea register={register} name="detailsPlace" />
+              <TextArea
+                register={register}
+                name="detailsPlace"
+                length={200}
+                placeholder="200文字以内"
+              />
               <ErrorLabel name="概要" error={errors.overview} />
-              <TextArea register={register} name="overview" />
+              <TextArea
+                register={register}
+                name="overview"
+                length={200}
+                placeholder="200文字以内"
+              />
               <Label name="募集人数" />
-              <PeopleSelect register={register} />
+              <Selecter register={register} />
               <ErrorLabel name="日付" error={errors.date} />
               <DateInput register={register} />
               <ErrorLabel name="時間" error={errors.time} />

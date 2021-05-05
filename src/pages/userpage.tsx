@@ -12,7 +12,12 @@ export default function userpage() {
         </Head>
         <Nav />
         <Main>
-          <div className="h-96 bg-white  sm:rounded-lg shadow p-4"></div>
+          <div className="h-20 bg-white  sm:rounded-lg shadow"></div>
+          <div className="h-4" />
+          <div className="h-20  bg-white  sm:rounded-lg shadow"></div>
+          <div className="h-4" />
+          <div className="h-20  bg-white  sm:rounded-lg shadow"></div>
+          <div className="h-4" />
         </Main>
       </Container>
     </div>
