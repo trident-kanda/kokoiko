@@ -16,6 +16,7 @@ const Input = ({
   message,
   name,
   validate,
+  autoComplete,
 }: props) => {
   if (!validate) {
     return (
@@ -30,6 +31,7 @@ const Input = ({
             message: message,
           },
         })}
+        autoComplete={autoComplete}
       />
     );
   } else {
@@ -47,6 +49,7 @@ const Input = ({
           validate: (value: string) =>
             value === validate || "パスワードが一致しません",
         })}
+        autoComplete={autoComplete}
       />
     );
   }

@@ -12,6 +12,8 @@ import Label from "../components/form/Label";
 import Selecter from "../components/form/Selecter";
 import DateInput from "../components/form/DateInput";
 import TimeInput from "../components/form/TimeInput";
+import Input from "../components/form/Input";
+import { post } from "../../graphql/query";
 
 export default function recruiment() {
   type formProps = {
@@ -20,6 +22,7 @@ export default function recruiment() {
     numberPeople: string;
     overview: string;
     time: string;
+    title: string;
   };
 
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
@@ -51,9 +54,9 @@ export default function recruiment() {
   const onSubmit = (data: formProps) => {
     if (latLng === null) {
       mapErrorSet("タップピンを立ててください");
+      return;
     }
-    console.log(data);
-    console.log(latLng);
+    post({ data, latLng });
   };
 
   const mapClick = ({ x, y, lat, lng, event }: any) => {
@@ -100,6 +103,13 @@ export default function recruiment() {
               onClick={mapClick}
             ></GoogleMap>
             <form className="" onSubmit={handleSubmit(onSubmit)}>
+              <ErrorLabel name="募集タイトル" error={errors.title} />
+              <Input
+                register={register}
+                type="text"
+                autoComplete="off"
+                name="title"
+              />
               <ErrorLabel name="集合場所詳細" error={errors.detailsPlace} />
               <TextArea
                 register={register}
