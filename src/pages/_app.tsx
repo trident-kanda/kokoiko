@@ -3,7 +3,12 @@ import "tailwindcss/tailwind.css";
 import { supabase } from "../../supabase/key";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-
+import { ApolloProvider } from "@apollo/client/react";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+const client = new ApolloClient({
+  uri: process.env.GRAPHQL_URL,
+  cache: new InMemoryCache(),
+});
 function MyApp({ Component, pageProps }: AppProps) {
   const { replace, pathname } = useRouter();
   if (pathname === "/signin" || pathname === "/signup") {
@@ -43,7 +48,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       };
     }, []);
   }
-  return <Component {...pageProps} />;
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />;
+    </ApolloProvider>
+  );
 }
 
 export default MyApp;

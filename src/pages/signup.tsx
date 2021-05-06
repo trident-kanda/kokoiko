@@ -9,11 +9,21 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { setUserData } from "../../graphql/query";
+import { useMutation, gql } from "@apollo/client";
 
 const Signup = () => {
+  const SET_USER = gql`
+    mutation($name: String!, $uid: uuid!) {
+      insert_users(objects: { name: $name, uid: $uid }) {
+        returning {
+          name
+          uid
+        }
+      }
+    }
+  `;
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-
+  const [setUser, { data }] = useMutation(SET_USER);
   const {
     handleSubmit,
     register,
@@ -32,7 +42,7 @@ const Signup = () => {
     const user: User | undefined = await signUp(data, setErrorMessage);
     if (user) {
       changeName(user, data.name);
-      setUserData(user.id, data.name);
+      setUser({ variables: { name: data.name, uid: user.id } });
     }
   };
   return (
