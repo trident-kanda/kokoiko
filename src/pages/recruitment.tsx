@@ -13,8 +13,8 @@ import Selecter from "../components/form/Selecter";
 import DateInput from "../components/form/DateInput";
 import TimeInput from "../components/form/TimeInput";
 import Input from "../components/form/Input";
-import { post } from "../../graphql/query";
-
+import { useMutation, gql } from "@apollo/client";
+import { supabase } from "../../supabase/key";
 export default function recruiment() {
   type formProps = {
     date: string;
@@ -24,7 +24,33 @@ export default function recruiment() {
     time: string;
     title: string;
   };
-
+  const SET_RECRUITMENT = gql`
+    mutation(
+      $date: date!
+      $detailPlace: String!
+      $numberPeople: smallint!
+      $overview: String!
+      $time: time!
+      $title: String!
+      $uid: uuid!
+    ) {
+      insert_recruitments(
+        objects: {
+          date: $date
+          detailPlace: $detailPlace
+          numberPeople: $numberPeople
+          overview: $overview
+          time: $time
+          title: $title
+          uid: $uid
+        }
+      ) {
+        returning {
+          id
+        }
+      }
+    }
+  `;
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
   const [latLng, setLatLng] = useState<any>(null);
   const [map, setMap] = useState<any>(null);
@@ -32,6 +58,7 @@ export default function recruiment() {
   const [marker, setMarker] = useState<any>(null);
   const [apiReady, setReady] = useState(false);
   const [mapError, mapErrorSet] = useState<null | string>(null);
+  const [setRecruitment, { data }] = useMutation(SET_RECRUITMENT);
   const {
     handleSubmit,
     register,
@@ -56,7 +83,18 @@ export default function recruiment() {
       mapErrorSet("タップピンを立ててください");
       return;
     }
-    post({ data, latLng });
+    const user = supabase.auth.user();
+    setRecruitment({
+      variables: {
+        date: data.date,
+        detailPlace: data.detailPlace,
+        numberPeople: data.numberPeople,
+        overview: data.overview,
+        time: data.time,
+        title: data.title,
+        uid: user?.id,
+      },
+    });
   };
 
   const mapClick = ({ x, y, lat, lng, event }: any) => {
@@ -110,10 +148,10 @@ export default function recruiment() {
                 autoComplete="off"
                 name="title"
               />
-              <ErrorLabel name="集合場所詳細" error={errors.detailsPlace} />
+              <ErrorLabel name="集合場所詳細" error={errors.detailPlace} />
               <TextArea
                 register={register}
-                name="detailsPlace"
+                name="detailPlace"
                 length={200}
                 placeholder="200文字以内"
               />
