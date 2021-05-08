@@ -3,15 +3,65 @@ import Link from "next/link";
 import { signIn, googleLogin } from "../../supabase/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
+import {
+  useMutation,
+  gql,
+  useQuery,
+  useLazyQuery,
+  useApolloClient,
+} from "@apollo/client";
+
+const SET_USER = gql`
+  mutation($name: String!, $uid: uuid!) {
+    insert_users(objects: { name: $name, uid: $uid }) {
+      returning {
+        name
+        uid
+      }
+    }
+  }
+`;
 
 const Signin = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-
+  const [setUser] = useMutation(SET_USER);
+  const client = useApolloClient();
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log(session);
+        client
+          .query({
+            query: gql`
+              query($uid: uuid) {
+                users(where: { uid: { _eq: $uid } }) {
+                  uid
+                }
+              }
+            `,
+            variables: { uid: session?.user.id },
+          })
+          .then((result) => {
+            if (result.data.users.length === 0) {
+              setUser({
+                variables: {
+                  name: session?.user.user_metadata.full_name,
+                  uid: session?.user.id,
+                },
+              });
+            }
+          });
+      }
+    );
+    return () => {
+      authListener?.unsubscribe();
+    };
+  }, []);
   const {
     handleSubmit,
     register,

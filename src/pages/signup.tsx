@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
 import { signUp, googleLogin, changeName } from "../../supabase/auth";
@@ -9,7 +9,7 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useLazyQuery } from "@apollo/client";
 
 const Signup = () => {
   const SET_USER = gql`
@@ -23,7 +23,8 @@ const Signup = () => {
     }
   `;
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  const [setUser, { data }] = useMutation(SET_USER);
+  const [setUser] = useMutation(SET_USER);
+
   const {
     handleSubmit,
     register,
