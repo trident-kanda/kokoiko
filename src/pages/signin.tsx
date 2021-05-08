@@ -8,13 +8,7 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../supabase/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import {
-  useMutation,
-  gql,
-  useQuery,
-  useLazyQuery,
-  useApolloClient,
-} from "@apollo/client";
+import { useMutation, gql, useApolloClient } from "@apollo/client";
 
 const SET_USER = gql`
   mutation($name: String!, $uid: uuid!) {
@@ -34,7 +28,6 @@ const Signin = () => {
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log(session);
         client
           .query({
             query: gql`

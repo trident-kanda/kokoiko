@@ -50,7 +50,7 @@ export const googleLogin = async() => {
   const {user} = await supabase.auth.signIn({ provider: "google" })
 }
 
-export const changeName = async(user:any,name:string,) => {
+export const changeName = async(name:string,) => {
     await supabase.auth.update({
       data:{full_name: name}
     })

@@ -42,7 +42,7 @@ const Signup = () => {
   const onSubmit = async (data: form) => {
     const user: User | undefined = await signUp(data, setErrorMessage);
     if (user) {
-      changeName(user, data.name);
+      changeName(data.name);
       setUser({ variables: { name: data.name, uid: user.id } });
     }
   };
