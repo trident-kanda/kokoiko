@@ -48,13 +48,13 @@ const Nav = () => {
           <div className="flex items-center justify-center h-full">
             {pathname === "/userpage" && (
               <>
-                <UserIcon color="rgb(16, 185, 129)" />
+                <UserIcon color="rgb(16, 185, 129)" width={30} height={30} />
                 <span className=" text-green-500">ユーザページ</span>
               </>
             )}
             {pathname !== "/userpage" && (
               <>
-                <UserIcon color="rgb(107, 114, 128)" />
+                <UserIcon color="rgb(107, 114, 128)" width={30} height={30} />
                 <span className=" text-gray-500">ユーザページ</span>
               </>
             )}

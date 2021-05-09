@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ApolloProvider } from "@apollo/client/react";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import "../style/global.scss";
 const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
