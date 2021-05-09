@@ -23,7 +23,7 @@ const namechange = ({ user }: any) => {
       <Link href="/userpage">
         <a className="hover:text-gray-500">戻る</a>
       </Link>
-      <div className="bg-white shadow-sm rounded-lg p-10 flex items-center ">
+      <div className="bg-white shadow-sm sm:rounded-lg p-10 flex items-center ">
         <div className=" w-5/6 ">
           <input
             className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
