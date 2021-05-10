@@ -6,7 +6,8 @@ import { useState } from "react";
 import { changeName } from "../../supabase/auth";
 import { useMutation, gql } from "@apollo/client";
 const namechange = ({ user }: any) => {
-  const startName = user.user_metadata.full_name;
+  let startName = user.user_metadata.full_name;
+  const [checkname, setCheckname] = useState(startName);
   const [name, setName] = useState(startName);
   const CHANGE_NAME = gql`
     mutation($uid: uuid!, $name: String!) {
@@ -34,22 +35,18 @@ const namechange = ({ user }: any) => {
           />
         </div>
         <div className=" w-1/6">
-          {startName === name && (
-            <button
-              className="ml-2 py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none"
-              onClick={() => {
-                changeName(name);
-                nameChangeMutation({ variables: { uid: user.id, name: name } });
-              }}
-            >
+          {checkname === name && (
+            <button className="ml-2 py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none">
               変更
             </button>
           )}
-          {startName !== name && (
+          {checkname !== name && (
             <button
               className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
               onClick={() => {
                 changeName(name);
+                nameChangeMutation({ variables: { uid: user.id, name: name } });
+                setCheckname(name);
               }}
             >
               変更

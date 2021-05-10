@@ -34,14 +34,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
       const { data: authListener } = supabase.auth.onAuthStateChange(
         async (event, session) => {
-          const body = JSON.stringify({ event, session });
-          await fetch("/api/auth", {
-            method: "post",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            credentials: "same-origin",
-            body,
-          });
-          replace("/signin");
+          if (!session) {
+            const body = JSON.stringify({ event, session });
+            await fetch("/api/auth", {
+              method: "post",
+              headers: new Headers({ "Content-Type": "application/json" }),
+              credentials: "same-origin",
+              body,
+            });
+            replace("/signin");
+          }
         }
       );
       return () => {
