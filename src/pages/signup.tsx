@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
-import { signUp, googleLogin, changeName } from "../../supabase/auth";
+import { signUp, googleLogin, changeName } from "../../util/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { User } from "@supabase/supabase-js";
 import { GetServerSideProps } from "next";
-import { supabase } from "../../supabase/key";
+import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
 import { useMutation, gql, useLazyQuery } from "@apollo/client";
 
 const Signup = () => {
   const SET_USER = gql`
-    mutation($name: String!, $uid: uuid!) {
+    mutation ($name: String!, $uid: uuid!) {
       insert_users(objects: { name: $name, uid: $uid }) {
         returning {
           name

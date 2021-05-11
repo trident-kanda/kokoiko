@@ -1,16 +1,16 @@
 import { GetServerSideProps } from "next";
-import { supabase } from "../../supabase/key";
+import { supabase } from "../../util/key";
 import Container from "../components/Container";
 import Link from "next/link";
 import { useState } from "react";
-import { changeName } from "../../supabase/auth";
+import { changeName } from "../../util/auth";
 import { useMutation, gql } from "@apollo/client";
 const namechange = ({ user }: any) => {
   let startName = user.user_metadata.full_name;
   const [checkname, setCheckname] = useState(startName);
   const [name, setName] = useState(startName);
   const CHANGE_NAME = gql`
-    mutation($uid: uuid!, $name: String!) {
+    mutation ($uid: uuid!, $name: String!) {
       update_users(_set: { name: $name }, where: { uid: { _eq: $uid } }) {
         returning {
           name

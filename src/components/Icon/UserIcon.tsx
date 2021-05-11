@@ -1,14 +1,12 @@
 type props = {
   color: string;
-  width: string | number;
-  height: string | number;
 };
-const UserIcon = ({ color, width, height }: props) => {
+const UserIcon = ({ color }: props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
+      width="30"
+      height="30"
       viewBox="0 0 24 24"
       aria-labelledby="peopleIconTitle"
       stroke={color}

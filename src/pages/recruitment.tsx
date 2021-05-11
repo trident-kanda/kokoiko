@@ -14,7 +14,7 @@ import DateInput from "../components/form/DateInput";
 import TimeInput from "../components/form/TimeInput";
 import Input from "../components/form/Input";
 import { useMutation, gql } from "@apollo/client";
-import { supabase } from "../../supabase/key";
+import { supabase } from "../../util/key";
 export default function recruiment() {
   type formProps = {
     date: string;
@@ -25,7 +25,7 @@ export default function recruiment() {
     title: string;
   };
   const SET_RECRUITMENT = gql`
-    mutation(
+    mutation (
       $date: date!
       $detailPlace: String!
       $numberPeople: smallint!

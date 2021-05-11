@@ -1,6 +1,6 @@
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import "tailwindcss/tailwind.css";
-import { supabase } from "../../supabase/key";
+import { supabase } from "../../util/key";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ApolloProvider } from "@apollo/client/react";

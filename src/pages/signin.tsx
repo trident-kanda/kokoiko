@@ -1,17 +1,17 @@
 import Container from "../components/Container";
 import Link from "next/link";
-import { signIn, googleLogin } from "../../supabase/auth";
+import { signIn, googleLogin } from "../../util/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
-import { supabase } from "../../supabase/key";
+import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
 import { useMutation, gql, useApolloClient } from "@apollo/client";
 
 const SET_USER = gql`
-  mutation($name: String!, $uid: uuid!) {
+  mutation ($name: String!, $uid: uuid!) {
     insert_users(objects: { name: $name, uid: $uid }) {
       returning {
         name
@@ -31,7 +31,7 @@ const Signin = () => {
         client
           .query({
             query: gql`
-              query($uid: uuid) {
+              query ($uid: uuid) {
                 users(where: { uid: { _eq: $uid } }) {
                   uid
                 }

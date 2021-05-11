@@ -3,7 +3,7 @@ import Container from "../components/Container";
 import Nav from "../components/Nav";
 import Main from "../components/Main";
 import { GetServerSideProps } from "next";
-import { supabase } from "../../supabase/key";
+import { supabase } from "../../util/key";
 
 export default function Home() {
   return (

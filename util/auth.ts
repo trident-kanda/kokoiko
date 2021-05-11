@@ -1,6 +1,6 @@
 import { User } from "@supabase/gotrue-js";
 import { Dispatch, SetStateAction } from "react";
-import { supabase } from "../supabase/key";
+import { supabase } from "./key";
 
 type loginProps = {
   email:string
