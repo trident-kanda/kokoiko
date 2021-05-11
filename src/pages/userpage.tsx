@@ -34,7 +34,7 @@ export default function userpage() {
           </div>
           <div className="h-4" />
           <div className=" bg-white rounded-lg shadow sm:m-0 mx-5 divhover">
-            <Link href="/namechange">
+            <Link href="/friendsearch">
               <a className="flex items-center h-full p-5 ">
                 <div className=" w-1/6 ">
                   <SearchIcon
