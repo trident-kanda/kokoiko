@@ -8,7 +8,9 @@ const friendlist = () => {
       <Link href="/userpage">
         <a className="hover:text-gray-500">戻る</a>
       </Link>
-      <div className="bg-white shadow-sm sm:rounded-lg p-10 flex items-center h-96"></div>
+      <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  ">
+        <h2 className="text-xl bold text-gray-500 pb-1">フレンドリスト</h2>
+      </div>
     </Container>
   );
 };

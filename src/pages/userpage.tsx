@@ -8,7 +8,7 @@ import SearchIcon from "../components/Icon/SearchIcon";
 import ListIcon from "../components/Icon/ListIcon";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
-export default function userpage() {
+const userpage = () => {
   return (
     <div>
       <Container>
@@ -76,7 +76,9 @@ export default function userpage() {
       </Container>
     </div>
   );
-}
+};
+
+export default userpage;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { user } = await supabase.auth.api.getUserByCookie(req);

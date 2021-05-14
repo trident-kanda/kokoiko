@@ -24,34 +24,39 @@ const namechange = ({ user }: any) => {
       <Link href="/userpage">
         <a className="hover:text-gray-500">戻る</a>
       </Link>
-      <div className="bg-white shadow-sm sm:rounded-lg p-10 flex items-center ">
-        <div className=" w-5/6 ">
-          <input
-            className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
-            defaultValue={startName}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-        </div>
-        <div className=" w-1/6">
-          {checkname === name && (
-            <button className="ml-2 py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none">
-              変更
-            </button>
-          )}
-          {checkname !== name && (
-            <button
-              className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
-              onClick={() => {
-                changeName(name);
-                nameChangeMutation({ variables: { uid: user.id, name: name } });
-                setCheckname(name);
+      <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  ">
+        <h2 className="text-xl bold text-gray-500 pb-1">名前変更</h2>
+        <div className="flex items-center">
+          <div className=" w-5/6 ">
+            <input
+              className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
+              defaultValue={startName}
+              onChange={(e) => {
+                setName(e.target.value);
               }}
-            >
-              変更
-            </button>
-          )}
+            />
+          </div>
+          <div className=" w-1/6">
+            {checkname === name && (
+              <button className="ml-2 py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none">
+                変更
+              </button>
+            )}
+            {checkname !== name && (
+              <button
+                className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
+                onClick={() => {
+                  changeName(name);
+                  nameChangeMutation({
+                    variables: { uid: user.id, name: name },
+                  });
+                  setCheckname(name);
+                }}
+              >
+                変更
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </Container>
