@@ -5,8 +5,9 @@ import Main from "../components/Main";
 import Link from "next/link";
 import TagIcon from "../components/Icon/TagIcon";
 import SearchIcon from "../components/Icon/SearchIcon";
-import UserIcon from "../components/Icon/UserIcon";
 import ListIcon from "../components/Icon/ListIcon";
+import { GetServerSideProps } from "next";
+import { supabase } from "../../util/key";
 export default function userpage() {
   return (
     <div>
@@ -53,7 +54,7 @@ export default function userpage() {
           </div>
           <div className="h-4" />
           <div className=" bg-white rounded-lg shadow sm:m-0 mx-5 divhover">
-            <Link href="/namechange">
+            <Link href="/friendlist">
               <a className="flex items-center h-full p-5 ">
                 <div className=" w-1/6 ">
                   <ListIcon
@@ -76,3 +77,18 @@ export default function userpage() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  if (!user) {
+    return {
+      props: {},
+      redirect: { destination: "/signin", permanent: false },
+    };
+  }
+  return {
+    props: {
+      user,
+    },
+  };
+};
