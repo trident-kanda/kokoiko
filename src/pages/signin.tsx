@@ -37,14 +37,14 @@ const Signin = () => {
                 }
               }
             `,
-            variables: { uid: session?.user.id },
+            variables: { uid: session?.user?.id },
           })
           .then((result) => {
             if (result.data.users.length === 0) {
               setUser({
                 variables: {
-                  name: session?.user.user_metadata.full_name,
-                  uid: session?.user.id,
+                  name: session?.user?.user_metadata.full_name,
+                  uid: session?.user?.id,
                 },
               });
             }
