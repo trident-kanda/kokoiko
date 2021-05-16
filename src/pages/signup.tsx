@@ -43,8 +43,12 @@ const Signup = () => {
   const onSubmit = async (data: form) => {
     const user: User | undefined = await signUp(data, setErrorMessage);
     if (user) {
+      let id = "";
+      for (let i = 1; i <= 9; i++) {
+        id += Math.floor(Math.random() * 9) + 1;
+      }
       changeName(data.name);
-      setUser({ variables: { name: data.name, uid: user.id } });
+      setUser({ variables: { name: data.name, uid: user.id, friendid: id } });
     }
   };
   return (
