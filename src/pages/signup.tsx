@@ -13,11 +13,12 @@ import { useMutation, gql, useLazyQuery } from "@apollo/client";
 
 const Signup = () => {
   const SET_USER = gql`
-    mutation ($name: String!, $uid: uuid!) {
-      insert_users(objects: { name: $name, uid: $uid }) {
+    mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
+      insert_users(objects: { name: $name, uid: $uid, friendid: $friendid }) {
         returning {
           name
           uid
+          friendid
         }
       }
     }
