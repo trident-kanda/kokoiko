@@ -12,11 +12,12 @@ import { useMutation, gql, useApolloClient } from "@apollo/client";
 import { randomBytes } from "crypto";
 
 const SET_USER = gql`
-  mutation ($name: String!, $uid: uuid!) {
-    insert_users(objects: { name: $name, uid: $uid }) {
+  mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
+    insert_users(objects: { name: $name, uid: $uid, friendid: $friendid }) {
       returning {
         name
         uid
+        friendid
       }
     }
   }
@@ -50,6 +51,7 @@ const Signin = () => {
                 variables: {
                   name: session?.user?.user_metadata.full_name,
                   uid: session?.user?.id,
+                  friendid: id,
                 },
               });
             }
