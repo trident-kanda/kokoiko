@@ -3,16 +3,15 @@ import { supabase } from "../../util/key";
 import Container from "../components/Container";
 import Link from "next/link";
 import { useState } from "react";
-import {
-  useMutation,
-  gql,
-  useLazyQuery,
-  useApolloClient,
-} from "@apollo/client";
+import { useMutation, gql, useApolloClient } from "@apollo/client";
 import Modal from "react-modal";
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
+  const [userData, setUserdata] = useState<any>();
+  type data = {
+    name: string;
+  };
   const SEND_FRIEND = gql`
     mutation ($uid: uuid!, $name: String!) {
       update_users(_set: { name: $name }, where: { uid: { _eq: $uid } }) {
@@ -30,7 +29,6 @@ const friendsearch = ({ user }: any) => {
     }
   `;
   const [sendFriendMutation] = useMutation(SEND_FRIEND);
-  const [getUserData, { loading, data, error }] = useLazyQuery(GET_USER);
   const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
@@ -69,6 +67,7 @@ const friendsearch = ({ user }: any) => {
           style={customStyles}
         >
           <div>
+            <p>{userData}</p>
             <button
               onClick={() => {
                 modalChange(false);
@@ -91,20 +90,19 @@ const friendsearch = ({ user }: any) => {
           <div className=" w-1/6">
             <button
               className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
-              onClick={() => {
-                // getUserData({ variables: { friendid: inputid } });
-                client
+              onClick={async () => {
+                await client
                   .query({
                     query: GET_USER,
                     variables: { friendid: inputid },
                   })
                   .then((res) => {
-                    console.log(res);
+                    setUserdata(res.data.users[0].name);
+                    modalChange(true);
                   })
                   .catch((err) => {
                     console.log(err);
                   });
-                // modalChange(true);
               }}
             >
               検索
