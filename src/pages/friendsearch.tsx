@@ -3,7 +3,12 @@ import { supabase } from "../../util/key";
 import Container from "../components/Container";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import {
+  useMutation,
+  gql,
+  useLazyQuery,
+  useApolloClient,
+} from "@apollo/client";
 import Modal from "react-modal";
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
@@ -17,7 +22,16 @@ const friendsearch = ({ user }: any) => {
       }
     }
   `;
+  const GET_USER = gql`
+    query ($friendid: Int!) {
+      users(where: { friendid: { _eq: $friendid } }) {
+        name
+      }
+    }
+  `;
   const [sendFriendMutation] = useMutation(SEND_FRIEND);
+  const [getUserData, { loading, data, error }] = useLazyQuery(GET_USER);
+  const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
     modalChange(false);
@@ -78,7 +92,19 @@ const friendsearch = ({ user }: any) => {
             <button
               className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
               onClick={() => {
-                modalChange(true);
+                // getUserData({ variables: { friendid: inputid } });
+                client
+                  .query({
+                    query: GET_USER,
+                    variables: { friendid: inputid },
+                  })
+                  .then((res) => {
+                    console.log(res);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+                // modalChange(true);
               }}
             >
               検索
