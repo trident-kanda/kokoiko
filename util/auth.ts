@@ -55,3 +55,9 @@ export const changeName = async(name:string,) => {
       data:{full_name: name}
     })
 }
+
+export const setFriendId = async(id:string) => {
+  await supabase.auth.update({
+    data:{friendid: id}
+  })
+}

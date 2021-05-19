@@ -3,7 +3,7 @@ import { supabase } from "../../util/key";
 import Container from "../components/Container";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, gql, useApolloClient } from "@apollo/client";
+import { useMutation, gql, useApolloClient, useQuery } from "@apollo/client";
 import Modal from "react-modal";
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
@@ -29,6 +29,7 @@ const friendsearch = ({ user }: any) => {
     }
   `;
   const [sendFriendMutation] = useMutation(SEND_FRIEND);
+  console.log(user);
   const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
@@ -77,10 +78,17 @@ const friendsearch = ({ user }: any) => {
             </button>
           </div>
         </Modal>
+        <h2 className="text-xl bold text-gray-500 pb-1">自分のID</h2>
+        <input
+          defaultValue={"a"}
+          readOnly
+          className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
+        />
         <h2 className="text-xl bold text-gray-500 pb-1">ユーザー検索</h2>
         <div className="flex items-center">
           <div className=" w-5/6 ">
             <input
+              placeholder="9桁のIDを入力"
               className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
               onChange={(e) => {
                 setId(e.target.value);

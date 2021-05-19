@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Container from "../components/Container";
 import Link from "next/link";
-import { signUp, googleLogin, changeName } from "../../util/auth";
+import { signUp, googleLogin, changeName, setFriendId } from "../../util/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { User } from "@supabase/supabase-js";
@@ -47,8 +47,9 @@ const Signup = () => {
       for (let i = 1; i <= 9; i++) {
         id += Math.floor(Math.random() * 9) + 1;
       }
-      changeName(data.name);
       setUser({ variables: { name: data.name, uid: user.id, friendid: id } });
+      changeName(data.name);
+      setFriendId(id);
     }
   };
   return (

@@ -1,6 +1,6 @@
 import Container from "../components/Container";
 import Link from "next/link";
-import { signIn, googleLogin } from "../../util/auth";
+import { signIn, googleLogin, setFriendId } from "../../util/auth";
 import Head from "next/head";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -54,6 +54,7 @@ const Signin = () => {
                   friendid: id,
                 },
               });
+              setFriendId(id);
             }
           });
       }
