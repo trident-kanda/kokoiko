@@ -9,7 +9,6 @@ import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
 import { useMutation, gql, useApolloClient } from "@apollo/client";
-import { randomBytes } from "crypto";
 
 const SET_USER = gql`
   mutation ($name: String!, $uid: uuid!, $friendid: Int!) {

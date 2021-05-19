@@ -9,8 +9,8 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { useMutation, gql, useLazyQuery } from "@apollo/client";
-
+import { useMutation, gql } from "@apollo/client";
+import { useRouter } from "next/router";
 const Signup = () => {
   const SET_USER = gql`
     mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
@@ -25,7 +25,7 @@ const Signup = () => {
   `;
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [setUser] = useMutation(SET_USER);
-
+  const { replace } = useRouter();
   const {
     handleSubmit,
     register,
@@ -50,6 +50,7 @@ const Signup = () => {
       setUser({ variables: { name: data.name, uid: user.id, friendid: id } });
       changeName(data.name);
       setFriendId(id);
+      replace("/");
     }
   };
   return (
