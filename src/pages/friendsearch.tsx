@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { useMutation, gql, useApolloClient, useQuery } from "@apollo/client";
 import Modal from "react-modal";
+import ReactLoading from "react-loading";
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
   const [userData, setUserdata] = useState<any>();
+  const [loading, loadChange] = useState(false);
   const SEND_FRIEND = gql`
     mutation ($uid: uuid!, $name: String!) {
       update_users(_set: { name: $name }, where: { uid: { _eq: $uid } }) {
@@ -58,7 +60,12 @@ const friendsearch = ({ user }: any) => {
       <Link href="/userpage">
         <a className="hover:text-gray-500">戻る</a>
       </Link>
-      <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  ">
+      <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 relative">
+        {loading && (
+          <div className=" absolute right-1/2 top-1/2">
+            <ReactLoading type={"spin"} color="gray" height={40} width={40} />
+          </div>
+        )}
         <Modal
           isOpen={modalState}
           onRequestClose={closeModal}
@@ -105,9 +112,9 @@ const friendsearch = ({ user }: any) => {
               }}
             />
           </div>
-          <div className=" w-1/6">
+          <div className=" w-1/6 ml-2">
             {inputid.length !== 9 && (
-              <button className="ml-2 py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none">
+              <button className=" py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none">
                 検索
               </button>
             )}
@@ -115,6 +122,7 @@ const friendsearch = ({ user }: any) => {
               <button
                 className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
                 onClick={async () => {
+                  loadChange(true);
                   await client
                     .query({
                       query: GET_USER,
@@ -122,11 +130,12 @@ const friendsearch = ({ user }: any) => {
                     })
                     .then((res) => {
                       setUserdata(res.data.users[0].name);
+                      loadChange(false);
                       modalChange(true);
                     })
                     .catch((err) => {
-                      setUserdata("存在しません");
-                      modalChange(true);
+                      loadChange(false);
+                      alert("そのユーザーは存在してません");
                     });
                 }}
               >
