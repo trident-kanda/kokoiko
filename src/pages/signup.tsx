@@ -9,8 +9,9 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
+import { createId } from "../../util/util";
 const Signup = () => {
   const SET_USER = gql`
     mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
@@ -43,10 +44,7 @@ const Signup = () => {
   const onSubmit = async (data: form) => {
     const user: User | undefined = await signUp(data, setErrorMessage);
     if (user) {
-      let id = "";
-      for (let i = 1; i <= 9; i++) {
-        id += Math.floor(Math.random() * 9) + 1;
-      }
+      let id = createId();
       setUser({ variables: { name: data.name, uid: user.id, friendid: id } });
       changeName(data.name);
       setFriendId(id);

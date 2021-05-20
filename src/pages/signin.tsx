@@ -9,6 +9,7 @@ import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
 import { useMutation, gql, useApolloClient } from "@apollo/client";
+import { createId } from "../../util/util";
 
 const SET_USER = gql`
   mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
@@ -42,10 +43,7 @@ const Signin = () => {
           })
           .then((result) => {
             if (result.data.users.length === 0) {
-              let id = "";
-              for (let i = 1; i <= 9; i++) {
-                id += Math.floor(Math.random() * 9) + 1;
-              }
+              const id = createId();
               setUser({
                 variables: {
                   name: session?.user?.user_metadata.full_name,
