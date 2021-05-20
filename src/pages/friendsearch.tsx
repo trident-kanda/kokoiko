@@ -9,9 +9,6 @@ const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
   const [userData, setUserdata] = useState<any>();
-  type data = {
-    name: string;
-  };
   const SEND_FRIEND = gql`
     mutation ($uid: uuid!, $name: String!) {
       update_users(_set: { name: $name }, where: { uid: { _eq: $uid } }) {
@@ -29,7 +26,6 @@ const friendsearch = ({ user }: any) => {
     }
   `;
   const [sendFriendMutation] = useMutation(SEND_FRIEND);
-  console.log(user);
   const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
@@ -50,9 +46,10 @@ const friendsearch = ({ user }: any) => {
       right: "auto",
       bottom: "auto",
       marginRight: "-50%",
-      width: "500px",
-      height: "300px",
+      width: "300px",
+
       transform: "translate(-50%, -50%)",
+      // height: "300px",
     },
   };
 
@@ -69,18 +66,27 @@ const friendsearch = ({ user }: any) => {
         >
           <div>
             <p>{userData}</p>
-            <button
-              onClick={() => {
-                modalChange(false);
-              }}
-            >
-              閉じる
-            </button>
+            <div className="flex">
+              <button
+                onClick={() => {
+                  modalChange(false);
+                }}
+              >
+                閉じる
+              </button>
+              <button
+                onClick={() => {
+                  console.log("aa");
+                }}
+              >
+                送信
+              </button>
+            </div>
           </div>
         </Modal>
         <h2 className="text-xl bold text-gray-500 pb-1">自分のID</h2>
         <input
-          defaultValue={"a"}
+          defaultValue={user.user_metadata.friendid}
           readOnly
           className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
         />
@@ -91,30 +97,42 @@ const friendsearch = ({ user }: any) => {
               placeholder="9桁のIDを入力"
               className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
               onChange={(e) => {
-                setId(e.target.value);
+                if (e.target.value.length < 10) {
+                  setId(e.target.value);
+                } else {
+                  e.target.value = inputid;
+                }
               }}
             />
           </div>
           <div className=" w-1/6">
-            <button
-              className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
-              onClick={async () => {
-                await client
-                  .query({
-                    query: GET_USER,
-                    variables: { friendid: inputid },
-                  })
-                  .then((res) => {
-                    setUserdata(res.data.users[0].name);
-                    modalChange(true);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
-            >
-              検索
-            </button>
+            {inputid.length !== 9 && (
+              <button className="ml-2 py-2 bg-gray-500 rounded-lg pointer-events-none w-full text-white focus:outline-none">
+                検索
+              </button>
+            )}
+            {inputid.length === 9 && (
+              <button
+                className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
+                onClick={async () => {
+                  await client
+                    .query({
+                      query: GET_USER,
+                      variables: { friendid: inputid },
+                    })
+                    .then((res) => {
+                      setUserdata(res.data.users[0].name);
+                      modalChange(true);
+                    })
+                    .catch((err) => {
+                      setUserdata("存在しません");
+                      modalChange(true);
+                    });
+                }}
+              >
+                検索
+              </button>
+            )}
           </div>
         </div>
       </div>
