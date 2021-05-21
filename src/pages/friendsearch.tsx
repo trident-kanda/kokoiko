@@ -72,9 +72,12 @@ const friendsearch = ({ user }: any) => {
           style={customStyles}
         >
           <div>
-            <p>{userData}</p>
-            <div className="flex">
+            <p className="text-lg text-gray-500">ユーザー名</p>
+            <p className=" text-lg font-bold">{userData}</p>
+            <div className="h-4" />
+            <div className="flex justify-around ">
               <button
+                className="ml-2 py-2 bg-red-500 rounded-lg hover:bg-red-300  text-white focus:outline-none w-1/3"
                 onClick={() => {
                   modalChange(false);
                 }}
@@ -82,6 +85,7 @@ const friendsearch = ({ user }: any) => {
                 閉じる
               </button>
               <button
+                className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300  text-white focus:outline-none w-1/3"
                 onClick={() => {
                   console.log("aa");
                 }}
@@ -120,9 +124,9 @@ const friendsearch = ({ user }: any) => {
             )}
             {inputid.length === 9 && (
               <button
-                className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
+                className=" py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
                 onClick={async () => {
-                  if ((user.user_metadata.friendid = inputid)) {
+                  if (user.user_metadata.friendid === inputid) {
                     alert("自分のIDです");
                     return;
                   }
