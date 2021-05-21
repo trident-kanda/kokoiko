@@ -122,6 +122,10 @@ const friendsearch = ({ user }: any) => {
               <button
                 className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300 w-full text-white focus:outline-none"
                 onClick={async () => {
+                  if ((user.user_metadata.friendid = inputid)) {
+                    alert("自分のIDです");
+                    return;
+                  }
                   loadChange(true);
                   await client
                     .query({
