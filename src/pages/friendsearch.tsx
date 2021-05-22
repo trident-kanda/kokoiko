@@ -9,13 +9,19 @@ import ReactLoading from "react-loading";
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
-  const [userData, setUserdata] = useState<any>();
-  const [loading, loadChange] = useState(false);
+  const [userData, setUserdata] = useState<userDataProps>();
+  const [load, loadChange] = useState(false);
+  type userDataProps = {
+    name: string;
+    uid: string;
+    __typename: string;
+  };
   const SEND_FRIEND = gql`
-    mutation ($uid: uuid!, $name: String!) {
-      update_users(_set: { name: $name }, where: { uid: { _eq: $uid } }) {
+    mutation ($uid: uuid!, $requestuid: uuid!) {
+      insert_friendrequest(objects: { uid: $uid, requestuid: $requestuid }) {
         returning {
-          name
+          uid
+          requestuid
         }
       }
     }
@@ -24,10 +30,11 @@ const friendsearch = ({ user }: any) => {
     query ($friendid: Int!) {
       users(where: { friendid: { _eq: $friendid } }) {
         name
+        uid
       }
     }
   `;
-  const [sendFriendMutation] = useMutation(SEND_FRIEND);
+  const [sendFriendMutation, { loading, error }] = useMutation(SEND_FRIEND);
   const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
@@ -61,7 +68,7 @@ const friendsearch = ({ user }: any) => {
         <a className="hover:text-gray-500">戻る</a>
       </Link>
       <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 relative">
-        {loading && (
+        {load && (
           <div className=" absolute right-1/2 top-1/2">
             <ReactLoading type={"spin"} color="gray" height={40} width={40} />
           </div>
@@ -73,7 +80,7 @@ const friendsearch = ({ user }: any) => {
         >
           <div>
             <p className="text-lg text-gray-500">ユーザー名</p>
-            <p className=" text-lg font-bold">{userData}</p>
+            <p className=" text-lg font-bold">{userData?.name}</p>
             <div className="h-4" />
             <div className="flex justify-around ">
               <button
@@ -86,8 +93,22 @@ const friendsearch = ({ user }: any) => {
               </button>
               <button
                 className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300  text-white focus:outline-none w-1/3"
-                onClick={() => {
-                  console.log("aa");
+                onClick={async () => {
+                  // sendFriendMutation({
+                  //   variables: { uid: user.id, requestuid: userData?.uid },
+                  // });
+                  await client
+                    .mutate({
+                      mutation: SEND_FRIEND,
+                      variables: { uid: user.id, requestuid: userData?.uid },
+                    })
+                    .then((res) => {
+                      console.log(res);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                  modalChange(false);
                 }}
               >
                 送信
@@ -137,7 +158,7 @@ const friendsearch = ({ user }: any) => {
                       variables: { friendid: inputid },
                     })
                     .then((res) => {
-                      setUserdata(res.data.users[0].name);
+                      setUserdata(res.data.users[0]);
                       loadChange(false);
                       modalChange(true);
                     })
