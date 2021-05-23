@@ -3,7 +3,7 @@ import { supabase } from "../../util/key";
 import Container from "../components/Container";
 import Link from "next/link";
 import { useState } from "react";
-import { useMutation, gql, useApolloClient, useQuery } from "@apollo/client";
+import { gql, useApolloClient, useQuery } from "@apollo/client";
 import Modal from "react-modal";
 import ReactLoading from "react-loading";
 const friendsearch = ({ user }: any) => {
@@ -34,7 +34,6 @@ const friendsearch = ({ user }: any) => {
       }
     }
   `;
-  const [sendFriendMutation, { loading, error }] = useMutation(SEND_FRIEND);
   const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
@@ -56,9 +55,7 @@ const friendsearch = ({ user }: any) => {
       bottom: "auto",
       marginRight: "-50%",
       width: "300px",
-
       transform: "translate(-50%, -50%)",
-      // height: "300px",
     },
   };
 
@@ -68,17 +65,31 @@ const friendsearch = ({ user }: any) => {
         <a className="hover:text-gray-500">戻る</a>
       </Link>
       <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 relative">
-        {load && (
-          <div className=" absolute right-1/2 top-1/2">
-            <ReactLoading type={"spin"} color="gray" height={40} width={40} />
-          </div>
+        {!load && (
+          <ReactLoading
+            type={"spin"}
+            color="gray"
+            height={40}
+            width={40}
+            className="loading"
+          />
         )}
         <Modal
           isOpen={modalState}
           onRequestClose={closeModal}
           style={customStyles}
         >
-          <div>
+          <div className="relative">
+            {load && (
+              <div className=" absolute right-1/2 top-1/2">
+                <ReactLoading
+                  type={"spin"}
+                  color="gray"
+                  height={40}
+                  width={40}
+                />
+              </div>
+            )}
             <p className="text-lg text-gray-500">ユーザー名</p>
             <p className=" text-lg font-bold">{userData?.name}</p>
             <div className="h-4" />
@@ -94,18 +105,18 @@ const friendsearch = ({ user }: any) => {
               <button
                 className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300  text-white focus:outline-none w-1/3"
                 onClick={async () => {
-                  // sendFriendMutation({
-                  //   variables: { uid: user.id, requestuid: userData?.uid },
-                  // });
+                  loadChange(true);
                   await client
                     .mutate({
                       mutation: SEND_FRIEND,
                       variables: { uid: user.id, requestuid: userData?.uid },
                     })
                     .then((res) => {
+                      loadChange(false);
                       console.log(res);
                     })
                     .catch((error) => {
+                      loadChange(false);
                       console.log(error);
                     });
                   modalChange(false);
