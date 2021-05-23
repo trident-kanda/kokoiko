@@ -65,7 +65,7 @@ const friendsearch = ({ user }: any) => {
         <a className="hover:text-gray-500">戻る</a>
       </Link>
       <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 relative">
-        {!load && (
+        {load && (
           <ReactLoading
             type={"spin"}
             color="gray"
@@ -81,7 +81,7 @@ const friendsearch = ({ user }: any) => {
         >
           <div className="relative">
             {load && (
-              <div className=" absolute right-1/2 top-1/2">
+              <div className=" loading ">
                 <ReactLoading
                   type={"spin"}
                   color="gray"
