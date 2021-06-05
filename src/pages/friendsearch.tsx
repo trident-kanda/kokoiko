@@ -159,6 +159,9 @@ const friendsearch = ({ user }: any) => {
             <input
               placeholder="9桁のIDを入力"
               className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
               maxLength={9}
             />
           </div>
