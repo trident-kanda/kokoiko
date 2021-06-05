@@ -128,10 +128,10 @@ const friendsearch = ({ user }: any) => {
                           variables: { uid: userData?.uid },
                         })
                         .then((res) => {
-                          console.log(res);
-                        })
-                        .catch((err) => {
-                          console.log(err);
+                          console.log(res.data.friendrequest);
+                          if (res.data.friendrequest !== []) {
+                            //ここでフレンドにいれる
+                          }
                         });
                       loadChange(false);
                     })
