@@ -34,6 +34,15 @@ const friendsearch = ({ user }: any) => {
       }
     }
   `;
+
+  const REQURST_CHECK = gql`
+    query ($uid: uuid!) {
+      friendrequest(where: { uid: { _eq: $uid } }) {
+        uid
+      }
+    }
+  `;
+
   const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
@@ -111,9 +120,20 @@ const friendsearch = ({ user }: any) => {
                       mutation: SEND_FRIEND,
                       variables: { uid: user.id, requestuid: userData?.uid },
                     })
-                    .then((res) => {
+                    .then(async (res) => {
+                      console.log(userData?.uid);
+                      await client
+                        .mutate({
+                          mutation: REQURST_CHECK,
+                          variables: { uid: userData?.uid },
+                        })
+                        .then((res) => {
+                          console.log(res);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
                       loadChange(false);
-                      console.log(res);
                     })
                     .catch((error) => {
                       loadChange(false);
@@ -139,13 +159,7 @@ const friendsearch = ({ user }: any) => {
             <input
               placeholder="9桁のIDを入力"
               className="w-full border-gray-300 border-2 rounded-md focus:outline-none focus:border-green-300 px-2 py-1"
-              onChange={(e) => {
-                if (e.target.value.length < 10) {
-                  setId(e.target.value);
-                } else {
-                  e.target.value = inputid;
-                }
-              }}
+              maxLength={9}
             />
           </div>
           <div className=" w-1/6 ml-2">
