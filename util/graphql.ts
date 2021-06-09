@@ -86,12 +86,12 @@ export const requestCheck = async (
   client: ApolloClient<object>
 ) => {
   return await client
-    .mutate({
-      mutation: REQURST_CHECK,
+    .query({
+      query: REQURST_CHECK,
       variables: { uid: uid },
     })
     .then((res) => {
-      return res;
+      return res.data.friendrequest;
     })
     .catch((err) => {
       return err;
@@ -112,7 +112,7 @@ export const deleteRequest = async (
       return res;
     })
     .catch((err) => {
-      return err;
+      return "err";
     });
 };
 
