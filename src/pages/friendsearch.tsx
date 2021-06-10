@@ -6,6 +6,12 @@ import { useState } from "react";
 import { gql, useApolloClient, useQuery } from "@apollo/client";
 import Modal from "react-modal";
 import ReactLoading from "react-loading";
+import {
+  deleteRequest,
+  requestCheck,
+  sendFriend,
+  setFriend,
+} from "../../util/graphql";
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
@@ -39,6 +45,28 @@ const friendsearch = ({ user }: any) => {
     query ($uid: uuid!) {
       friendrequest(where: { uid: { _eq: $uid } }) {
         uid
+      }
+    }
+  `;
+
+  const DELETE_REQUEST = gql`
+    mutation ($uid: uuid!, $requestuid: uuid!) {
+      delete_friendrequest(
+        where: {
+          requestuid: { _eq: $requestuid }
+          _and: { uid: { _eq: $uid } }
+        }
+      )
+    }
+  `;
+
+  const SET_FRIEND = gql`
+    mutation ($uid: uuid!, $frienduid: uuid!) {
+      insert_friends(objects: { frienduid: $frienduid, uid: $uid }) {
+        returning {
+          frienduid
+          uid
+        }
       }
     }
   `;
@@ -115,30 +143,38 @@ const friendsearch = ({ user }: any) => {
                 className="ml-2 py-2 bg-green-500 rounded-lg hover:bg-green-300  text-white focus:outline-none w-1/3"
                 onClick={async () => {
                   loadChange(true);
-                  await client
-                    .mutate({
-                      mutation: SEND_FRIEND,
-                      variables: { uid: user.id, requestuid: userData?.uid },
-                    })
-                    .then(async (res) => {
-                      console.log(userData?.uid);
-                      await client
-                        .mutate({
-                          mutation: REQURST_CHECK,
-                          variables: { uid: userData?.uid },
-                        })
-                        .then((res) => {
-                          console.log(res.data.friendrequest);
-                          if (res.data.friendrequest !== []) {
-                            //ここでフレンドにいれる
-                          }
-                        });
+                  if (userData) {
+                    //変更点
+                    //自分が送っていなくて相手が送っているときのため相手のIDも必要
+                    const res: boolean | String = await requestCheck(
+                      userData.uid,
+                      client
+                    );
+                    console.log(res);
+                    if (res === "err") {
+                      alert("失敗しました。");
                       loadChange(false);
-                    })
-                    .catch((error) => {
-                      loadChange(false);
-                      console.log(error);
-                    });
+                      modalChange(false);
+                      return;
+                    }
+                    if (res) {
+                      //リクエストを消去しフレンドテーブルに入れる***未完成
+                      console.log("自分:" + user.id);
+                      console.log("相手:" + userData.uid);
+                      await deleteRequest(userData.uid, user.id, client);
+                      await setFriend(user.id, userData.uid, client);
+                    }
+                    if (!res) {
+                      //相手が送っていないとき
+                      const res = await sendFriend(
+                        user.id,
+                        userData.uid,
+                        client
+                      );
+                      console.log(res);
+                    }
+                  }
+                  loadChange(false);
                   modalChange(false);
                 }}
               >

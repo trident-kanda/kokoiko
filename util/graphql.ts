@@ -91,10 +91,15 @@ export const requestCheck = async (
       variables: { uid: uid },
     })
     .then((res) => {
-      return res.data.friendrequest;
+      if (res.data.friendrequest.length == 0) {
+        return false;
+      } else {
+        return true;
+      }
     })
     .catch((err) => {
-      return err;
+      console.log(err);
+      return "err";
     });
 };
 
@@ -108,9 +113,6 @@ export const deleteRequest = async (
       mutation: DELETE_REQUEST,
       variables: { uid: uid, requestuid: requid },
     })
-    .then((res) => {
-      return res;
-    })
     .catch((err) => {
       return "err";
     });
@@ -123,8 +125,8 @@ export const setFriend = async (
 ) => {
   return await client
     .mutate({
-      mutation: SEND_FRIEND,
-      variables: { uid: uid, requestuid: requid },
+      mutation: SET_FRIEND,
+      variables: { uid: uid, frienduid: requid },
     })
     .then((res) => {
       return res;
