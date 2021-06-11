@@ -20,8 +20,10 @@ const GET_USER = gql`
 `;
 
 const REQURST_CHECK = gql`
-  query ($uid: uuid!) {
-    friendrequest(where: { uid: { _eq: $uid } }) {
+  query ($uid: uuid!, $requestuid: uuid!) {
+    friendrequest(
+      where: { uid: { _eq: $uid }, _and: { requestuid: { _eq: $requestuid } } }
+    ) {
       uid
     }
   }
@@ -46,6 +48,17 @@ const SET_FRIEND = gql`
   }
 `;
 
+const CHECK_FRIEND = gql`
+  query ($uid: uuid!, $frienduid: uuid!) {
+    friends(
+      where: { uid: { _eq: $uid }, _and: { frienduid: { _eq: $frienduid } } }
+    ) {
+      uid
+    }
+  }
+`;
+
+//フレンドリクエストを送信する
 export const sendFriend = async (
   uid: string,
   requid: string,
@@ -64,6 +77,7 @@ export const sendFriend = async (
     });
 };
 
+//ユーザーデータを取得
 export const getUser = async (
   friendid: string,
   client: ApolloClient<object>
@@ -81,14 +95,16 @@ export const getUser = async (
     });
 };
 
+//相手が自分にリクエストを送っているか確認
 export const requestCheck = async (
   uid: string,
+  requid: string,
   client: ApolloClient<object>
 ) => {
   return await client
     .query({
       query: REQURST_CHECK,
-      variables: { uid: uid },
+      variables: { uid: uid, requestuid: requid },
     })
     .then((res) => {
       if (res.data.friendrequest.length == 0) {
@@ -103,6 +119,7 @@ export const requestCheck = async (
     });
 };
 
+//フレンドリクエストを削除する
 export const deleteRequest = async (
   uid: string,
   requid: string,
@@ -118,6 +135,7 @@ export const deleteRequest = async (
     });
 };
 
+//フレンドをセットする
 export const setFriend = async (
   uid: string,
   requid: string,
@@ -133,5 +151,31 @@ export const setFriend = async (
     })
     .catch((err) => {
       return err;
+    });
+};
+
+//フレンドリクエストを送る相手がフレンドじゃないか確認
+export const friendCheck = async (
+  uid: string,
+  checkuid: string,
+  client: ApolloClient<object>
+) => {
+  return await client
+    .query({
+      query: CHECK_FRIEND,
+      variables: {
+        uid: uid,
+        frienduid: checkuid,
+      },
+    })
+    .then((res) => {
+      if (res.data.friends.length == 0) {
+        return false;
+      } else {
+        return true;
+      }
+    })
+    .catch((err) => {
+      return false;
     });
 };
