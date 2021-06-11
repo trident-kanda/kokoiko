@@ -33,7 +33,11 @@ const DELETE_REQUEST = gql`
   mutation ($uid: uuid!, $requestuid: uuid!) {
     delete_friendrequest(
       where: { uid: { _eq: $uid }, _and: { requestuid: { _eq: $requestuid } } }
-    )
+    ) {
+      returning {
+        uid
+      }
+    }
   }
 `;
 

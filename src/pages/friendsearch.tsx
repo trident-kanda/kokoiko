@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import ReactLoading from "react-loading";
 import {
   deleteRequest,
+  friendCheck,
   requestCheck,
   sendFriend,
   setFriend,
@@ -17,6 +18,7 @@ const friendsearch = ({ user }: any) => {
   const [modalState, modalChange] = useState(false);
   const [userData, setUserdata] = useState<userDataProps>();
   const [load, loadChange] = useState(false);
+  const [mutualState, mutualChange] = useState(false);
   type userDataProps = {
     name: string;
     uid: string;
@@ -144,28 +146,36 @@ const friendsearch = ({ user }: any) => {
                 onClick={async () => {
                   loadChange(true);
                   if (userData) {
-                    //変更点
-                    //自分が送っていなくて相手が送っているときのため相手のIDも必要
-                    const res: boolean | String = await requestCheck(
+                    const friendState: boolean = await friendCheck(
+                      user.id,
                       userData.uid,
                       client
                     );
-                    console.log(res);
-                    if (res === "err") {
+                    if (friendState || mutualState) {
+                      loadChange(false);
+                      modalChange(false);
+                      alert("そのユーザーはフレンドです");
+                      return;
+                    }
+                    const reqState: boolean | String = await requestCheck(
+                      userData.uid,
+                      user.id,
+                      client
+                    );
+                    console.log(friendState);
+                    if (reqState === "err") {
                       alert("失敗しました。");
                       loadChange(false);
                       modalChange(false);
                       return;
                     }
-                    if (res) {
-                      //リクエストを消去しフレンドテーブルに入れる***未完成
-                      console.log("自分:" + user.id);
-                      console.log("相手:" + userData.uid);
+                    if (reqState) {
                       await deleteRequest(userData.uid, user.id, client);
                       await setFriend(user.id, userData.uid, client);
+                      await setFriend(userData.uid, user.id, client);
+                      mutualChange(true);
                     }
-                    if (!res) {
-                      //相手が送っていないとき
+                    if (!reqState) {
                       const res = await sendFriend(
                         user.id,
                         userData.uid,
