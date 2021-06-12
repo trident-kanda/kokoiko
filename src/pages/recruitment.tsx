@@ -33,6 +33,8 @@ export default function recruiment() {
       $time: time!
       $title: String!
       $uid: uuid!
+      $lat: float8!
+      $lng: float8!
     ) {
       insert_recruitments(
         objects: {
@@ -43,6 +45,8 @@ export default function recruiment() {
           time: $time
           title: $title
           uid: $uid
+          lat: $lat
+          lng: $lng
         }
       ) {
         returning {
@@ -51,8 +55,12 @@ export default function recruiment() {
       }
     }
   `;
+  type latlng = {
+    lat: number;
+    lng: number;
+  };
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
-  const [latLng, setLatLng] = useState<any>(null);
+  const [latLng, setLatLng] = useState<latlng | null>(null);
   const [map, setMap] = useState<any>(null);
   const [maps, setMaps] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
@@ -84,6 +92,7 @@ export default function recruiment() {
       return;
     }
     const user = supabase.auth.user();
+    console.log(latLng);
     setRecruitment({
       variables: {
         date: data.date,
@@ -93,6 +102,8 @@ export default function recruiment() {
         time: data.time,
         title: data.title,
         uid: user?.id,
+        lat: latLng.lat,
+        lng: latLng.lng,
       },
     });
   };
