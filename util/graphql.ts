@@ -62,6 +62,58 @@ const CHECK_FRIEND = gql`
   }
 `;
 
+const SET_RECRUITMENT = gql`
+  mutation (
+    $date: date!
+    $detailPlace: String!
+    $numberPeople: smallint!
+    $overview: String!
+    $time: time!
+    $title: String!
+    $uid: uuid!
+    $lat: float8!
+    $lng: float8!
+  ) {
+    insert_recruitments(
+      objects: {
+        date: $date
+        detailPlace: $detailPlace
+        numberPeople: $numberPeople
+        overview: $overview
+        time: $time
+        title: $title
+        uid: $uid
+        lat: $lat
+        lng: $lng
+      }
+    ) {
+      returning {
+        id
+      }
+    }
+  }
+`;
+
+const SET_USER = gql`
+  mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
+    insert_users(objects: { name: $name, uid: $uid, friendid: $friendid }) {
+      returning {
+        name
+        uid
+        friendid
+      }
+    }
+  }
+`;
+
+const CHECK_USER = gql`
+  query ($uid: uuid) {
+    users(where: { uid: { _eq: $uid } }) {
+      uid
+    }
+  }
+`;
+
 //フレンドリクエストを送信する
 export const sendFriend = async (
   uid: string,
@@ -181,5 +233,76 @@ export const friendCheck = async (
     })
     .catch((err) => {
       return false;
+    });
+};
+
+//募集情報を送信(未使用)
+export const setRecruitment = async (
+  uid: string,
+  date: string,
+  detailPlace: string,
+  numberPeople: string,
+  overview: string,
+  time: string,
+  title: string,
+  client: ApolloClient<object>
+) => {
+  return await client
+    .mutate({
+      mutation: SET_RECRUITMENT,
+      variables: {
+        uid: uid,
+        date: date,
+        detailPlace: detailPlace,
+        numberPeople: numberPeople,
+        overview: overview,
+        time: time,
+        title: title,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const setUser = async (
+  name: string,
+  uid: string,
+  friendid: number,
+  client: ApolloClient<object>
+) => {
+  return await client
+    .mutate({
+      mutation: SET_USER,
+      variables: {
+        name: name,
+        uid: uid,
+        friendid: friendid,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const checkUser = async (uid: string, client: ApolloClient<object>) => {
+  return await client
+    .query({
+      query: CHECK_USER,
+      variables: {
+        uid: uid,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
     });
 };
