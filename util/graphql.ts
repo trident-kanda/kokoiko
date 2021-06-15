@@ -120,11 +120,7 @@ export const client = new ApolloClient({
 });
 
 //フレンドリクエストを送信する
-export const sendFriend = async (
-  uid: string,
-  requid: string,
-  client: ApolloClient<object>
-) => {
+export const sendFriend = async (uid: string, requid: string) => {
   return await client
     .mutate({
       mutation: SEND_FRIEND,
@@ -139,10 +135,7 @@ export const sendFriend = async (
 };
 
 //ユーザーデータを取得
-export const getUser = async (
-  friendid: string,
-  client: ApolloClient<object>
-) => {
+export const getUser = async (friendid: string) => {
   return await client
     .query({
       query: GET_USER,
@@ -152,16 +145,12 @@ export const getUser = async (
       return res;
     })
     .catch((err) => {
-      return err;
+      return "err";
     });
 };
 
 //相手が自分にリクエストを送っているか確認
-export const requestCheck = async (
-  uid: string,
-  requid: string,
-  client: ApolloClient<object>
-) => {
+export const requestCheck = async (uid: string, requid: string) => {
   return await client
     .query({
       query: REQURST_CHECK,
@@ -181,11 +170,7 @@ export const requestCheck = async (
 };
 
 //フレンドリクエストを削除する
-export const deleteRequest = async (
-  uid: string,
-  requid: string,
-  client: ApolloClient<object>
-) => {
+export const deleteRequest = async (uid: string, requid: string) => {
   return await client
     .mutate({
       mutation: DELETE_REQUEST,
@@ -197,11 +182,7 @@ export const deleteRequest = async (
 };
 
 //フレンドをセットする
-export const setFriend = async (
-  uid: string,
-  requid: string,
-  client: ApolloClient<object>
-) => {
+export const setFriend = async (uid: string, requid: string) => {
   return await client
     .mutate({
       mutation: SET_FRIEND,
@@ -216,11 +197,7 @@ export const setFriend = async (
 };
 
 //フレンドリクエストを送る相手がフレンドじゃないか確認
-export const friendCheck = async (
-  uid: string,
-  checkuid: string,
-  client: ApolloClient<object>
-) => {
+export const friendCheck = async (uid: string, checkuid: string) => {
   return await client
     .query({
       query: CHECK_FRIEND,

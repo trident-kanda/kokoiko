@@ -4,12 +4,9 @@ import { supabase } from "../../util/key";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ApolloProvider } from "@apollo/client/react";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
 import "../style/global.scss";
-const client = new ApolloClient({
-  uri: process.env.GRAPHQL_URL,
-  cache: new InMemoryCache(),
-});
+import { client } from "../../util/graphql";
+
 function MyApp({ Component, pageProps }: AppProps) {
   const { replace, pathname } = useRouter();
   if (pathname === "/signin" || pathname === "/signup") {

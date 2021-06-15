@@ -9,10 +9,12 @@ import ReactLoading from "react-loading";
 import {
   deleteRequest,
   friendCheck,
+  getUser,
   requestCheck,
   sendFriend,
   setFriend,
 } from "../../util/graphql";
+
 const friendsearch = ({ user }: any) => {
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
@@ -24,54 +26,6 @@ const friendsearch = ({ user }: any) => {
     uid: string;
     __typename: string;
   };
-  const SEND_FRIEND = gql`
-    mutation ($uid: uuid!, $requestuid: uuid!) {
-      insert_friendrequest(objects: { uid: $uid, requestuid: $requestuid }) {
-        returning {
-          uid
-          requestuid
-        }
-      }
-    }
-  `;
-  const GET_USER = gql`
-    query ($friendid: Int!) {
-      users(where: { friendid: { _eq: $friendid } }) {
-        name
-        uid
-      }
-    }
-  `;
-
-  const REQURST_CHECK = gql`
-    query ($uid: uuid!) {
-      friendrequest(where: { uid: { _eq: $uid } }) {
-        uid
-      }
-    }
-  `;
-
-  const DELETE_REQUEST = gql`
-    mutation ($uid: uuid!, $requestuid: uuid!) {
-      delete_friendrequest(
-        where: {
-          requestuid: { _eq: $requestuid }
-          _and: { uid: { _eq: $uid } }
-        }
-      )
-    }
-  `;
-
-  const SET_FRIEND = gql`
-    mutation ($uid: uuid!, $frienduid: uuid!) {
-      insert_friends(objects: { frienduid: $frienduid, uid: $uid }) {
-        returning {
-          frienduid
-          uid
-        }
-      }
-    }
-  `;
 
   const client = useApolloClient();
   Modal.setAppElement("#__next");
@@ -148,8 +102,7 @@ const friendsearch = ({ user }: any) => {
                   if (userData) {
                     const friendState: boolean = await friendCheck(
                       user.id,
-                      userData.uid,
-                      client
+                      userData.uid
                     );
                     if (friendState || mutualState) {
                       loadChange(false);
@@ -159,8 +112,7 @@ const friendsearch = ({ user }: any) => {
                     }
                     const reqState: boolean | String = await requestCheck(
                       userData.uid,
-                      user.id,
-                      client
+                      user.id
                     );
                     console.log(friendState);
                     if (reqState === "err") {
@@ -170,18 +122,13 @@ const friendsearch = ({ user }: any) => {
                       return;
                     }
                     if (reqState) {
-                      await deleteRequest(userData.uid, user.id, client);
-                      await setFriend(user.id, userData.uid, client);
-                      await setFriend(userData.uid, user.id, client);
+                      await deleteRequest(userData.uid, user.id);
+                      await setFriend(user.id, userData.uid);
+                      await setFriend(userData.uid, user.id);
                       mutualChange(true);
                     }
                     if (!reqState) {
-                      const res = await sendFriend(
-                        user.id,
-                        userData.uid,
-                        client
-                      );
-                      console.log(res);
+                      const res = await sendFriend(user.id, userData.uid);
                     }
                   }
                   loadChange(false);
@@ -226,20 +173,20 @@ const friendsearch = ({ user }: any) => {
                     return;
                   }
                   loadChange(true);
-                  await client
-                    .query({
-                      query: GET_USER,
-                      variables: { friendid: inputid },
-                    })
-                    .then((res) => {
-                      setUserdata(res.data.users[0]);
-                      loadChange(false);
-                      modalChange(true);
-                    })
-                    .catch((err) => {
-                      loadChange(false);
-                      alert("そのユーザーは存在してません");
-                    });
+                  const res: any = await getUser(inputid);
+                  if (res.data.users.length !== 0) {
+                    setUserdata(res.data.users[0]);
+                    loadChange(false);
+                    modalChange(true);
+                  }
+                  if (res.data.users.length === 0) {
+                    loadChange(false);
+                    alert("存在してないIDです");
+                  }
+                  if (res === "err") {
+                    loadChange(false);
+                    alert("エラー");
+                  }
                 }}
               >
                 検索
