@@ -1,4 +1,4 @@
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 
 const SEND_FRIEND = gql`
   mutation ($uid: uuid!, $requestuid: uuid!) {
@@ -113,6 +113,11 @@ const CHECK_USER = gql`
     }
   }
 `;
+
+export const client = new ApolloClient({
+  uri: process.env.GRAPHQL_URL,
+  cache: new InMemoryCache(),
+});
 
 //フレンドリクエストを送信する
 export const sendFriend = async (
