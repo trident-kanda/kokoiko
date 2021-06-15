@@ -27,7 +27,6 @@ const friendsearch = ({ user }: any) => {
     __typename: string;
   };
 
-  const client = useApolloClient();
   Modal.setAppElement("#__next");
   const closeModal = () => {
     modalChange(false);

@@ -13,8 +13,10 @@ import Selecter from "../components/form/Selecter";
 import DateInput from "../components/form/DateInput";
 import TimeInput from "../components/form/TimeInput";
 import Input from "../components/form/Input";
-import { useMutation, gql } from "@apollo/client";
+import ReactLoading from "react-loading";
 import { supabase } from "../../util/key";
+import { User } from "@supabase/supabase-js";
+import { setRecruitment } from "../../util/graphql";
 export default function recruiment() {
   type formProps = {
     date: string;
@@ -24,54 +26,32 @@ export default function recruiment() {
     time: string;
     title: string;
   };
-  const SET_RECRUITMENT = gql`
-    mutation (
-      $date: date!
-      $detailPlace: String!
-      $numberPeople: smallint!
-      $overview: String!
-      $time: time!
-      $title: String!
-      $uid: uuid!
-      $lat: float8!
-      $lng: float8!
-    ) {
-      insert_recruitments(
-        objects: {
-          date: $date
-          detailPlace: $detailPlace
-          numberPeople: $numberPeople
-          overview: $overview
-          time: $time
-          title: $title
-          uid: $uid
-          lat: $lat
-          lng: $lng
-        }
-      ) {
-        returning {
-          id
-        }
-      }
-    }
-  `;
+
   type latlng = {
     lat: number;
     lng: number;
   };
+  type user_metadata = {
+    avatar_url: string;
+    friendid: string;
+    full_name: string;
+  };
+
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
   const [latLng, setLatLng] = useState<latlng | null>(null);
   const [map, setMap] = useState<any>(null);
   const [maps, setMaps] = useState<any>(null);
   const [marker, setMarker] = useState<any>(null);
   const [apiReady, setReady] = useState(false);
+  const [load, loadChange] = useState(false);
   const [mapError, mapErrorSet] = useState<null | string>(null);
-  const [setRecruitment, { data }] = useMutation(SET_RECRUITMENT);
+  // const [setRecruitment, { data }] = useMutation(SET_RECRUITMENT);
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
+
   const handleApiLoaded = ({ map, maps }: any) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((postion) => {
@@ -86,26 +66,33 @@ export default function recruiment() {
     setReady(true);
   };
 
-  const onSubmit = (data: formProps) => {
+  const onSubmit = async (data: formProps) => {
     if (latLng === null) {
       mapErrorSet("タップピンを立ててください");
       return;
     }
-    const user = supabase.auth.user();
-    console.log(latLng);
-    setRecruitment({
-      variables: {
-        date: data.date,
-        detailPlace: data.detailPlace,
-        numberPeople: data.numberPeople,
-        overview: data.overview,
-        time: data.time,
-        title: data.title,
-        uid: user?.id,
-        lat: latLng.lat,
-        lng: latLng.lng,
-      },
-    });
+    loadChange(true);
+    const user: User | null = supabase.auth.user();
+    if (user) {
+      const res = await setRecruitment(
+        user.id,
+        data.date,
+        data.detailPlace,
+        data.numberPeople,
+        data.overview,
+        data.time,
+        data.title,
+        latLng.lat,
+        latLng.lng
+      );
+      if (res) {
+        loadChange(false);
+      }
+      if (!res) {
+        loadChange(false);
+        alert("保存できませんでした。");
+      }
+    }
   };
 
   const mapClick = ({ x, y, lat, lng, event }: any) => {
@@ -134,7 +121,16 @@ export default function recruiment() {
         </Head>
         <Nav />
         <Main>
-          <div className=" bg-white  sm:rounded-lg shadow p-4">
+          <div className=" bg-white  sm:rounded-lg shadow p-4 relative">
+            {load && (
+              <ReactLoading
+                type={"spin"}
+                color="gray"
+                height={40}
+                width={40}
+                className="loading"
+              />
+            )}
             <h2 className=" text-lg font-bold text-gray-700 ">
               集合場所
               <span className="ml-2 text-gray-500">タップ/クリックで選択</span>

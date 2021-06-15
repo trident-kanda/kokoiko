@@ -227,7 +227,8 @@ export const setRecruitment = async (
   overview: string,
   time: string,
   title: string,
-  client: ApolloClient<object>
+  lat: number,
+  lng: number
 ) => {
   return await client
     .mutate({
@@ -240,13 +241,15 @@ export const setRecruitment = async (
         overview: overview,
         time: time,
         title: title,
+        lat: lat,
+        lng: lng,
       },
     })
     .then((res) => {
-      return res;
+      return true;
     })
     .catch((err) => {
-      return err;
+      return false;
     });
 };
 

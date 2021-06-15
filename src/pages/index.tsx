@@ -4,7 +4,6 @@ import Nav from "../components/Nav";
 import Main from "../components/Main";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
-import { client } from "../../util/graphql";
 
 export default function Home() {
   return (
