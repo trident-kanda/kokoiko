@@ -10,6 +10,7 @@ import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
 import { useMutation, gql, useApolloClient } from "@apollo/client";
 import { createId } from "../../util/util";
+import { checkUser, setUser } from "../../util/graphql";
 
 const SET_USER = gql`
   mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
@@ -25,35 +26,22 @@ const SET_USER = gql`
 
 const Signin = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  const [setUser] = useMutation(SET_USER);
+  // const [setUser] = useMutation(SET_USER);
   const client = useApolloClient();
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        client
-          .query({
-            query: gql`
-              query ($uid: uuid) {
-                users(where: { uid: { _eq: $uid } }) {
-                  uid
-                }
-              }
-            `,
-            variables: { uid: session?.user?.id },
-          })
-          .then((result) => {
-            if (result.data.users.length === 0) {
-              const id = createId();
-              setUser({
-                variables: {
-                  name: session?.user?.user_metadata.full_name,
-                  uid: session?.user?.id,
-                  friendid: id,
-                },
-              });
-              setFriendId(id);
-            }
-          });
+        if (session?.user) {
+          if (checkUser(session?.user?.id)) {
+            console.log("aaa");
+            const id = createId();
+            setUser(
+              session?.user?.user_metadata.full_name,
+              session.user.id,
+              id
+            );
+          }
+        }
       }
     );
     return () => {

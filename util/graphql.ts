@@ -261,12 +261,7 @@ export const setRecruitment = async (
     });
 };
 
-export const setUser = async (
-  name: string,
-  uid: string,
-  friendid: number,
-  client: ApolloClient<object>
-) => {
+export const setUser = async (name: string, uid: string, friendid: string) => {
   return await client
     .mutate({
       mutation: SET_USER,
@@ -276,15 +271,11 @@ export const setUser = async (
         friendid: friendid,
       },
     })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      return err;
-    });
+    .then((res) => {})
+    .catch((err) => {});
 };
 
-export const checkUser = async (uid: string, client: ApolloClient<object>) => {
+export const checkUser = async (uid: string) => {
   return await client
     .query({
       query: CHECK_USER,
@@ -293,10 +284,15 @@ export const checkUser = async (uid: string, client: ApolloClient<object>) => {
       },
     })
     .then((res) => {
-      return res;
+      if (res.data.users.length === 0) {
+        return true;
+      }
+      if (res.data.users.length !== 0) {
+        return false;
+      }
     })
     .catch((err) => {
-      return err;
+      return false;
     });
 };
 
