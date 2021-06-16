@@ -8,25 +8,12 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { useMutation, gql, useApolloClient } from "@apollo/client";
+import { gql, useApolloClient } from "@apollo/client";
 import { createId } from "../../util/util";
 import { checkUser, setUser } from "../../util/graphql";
 
-const SET_USER = gql`
-  mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
-    insert_users(objects: { name: $name, uid: $uid, friendid: $friendid }) {
-      returning {
-        name
-        uid
-        friendid
-      }
-    }
-  }
-`;
-
 const Signin = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  // const [setUser] = useMutation(SET_USER);
   const client = useApolloClient();
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
