@@ -62,6 +62,14 @@ const CHECK_FRIEND = gql`
   }
 `;
 
+const GET_FRIEND = gql`
+  query ($uid: uuid!) {
+    friends(where: { uid: { _eq: $uid } }) {
+      frienduid
+    }
+  }
+`;
+
 const SET_RECRUITMENT = gql`
   mutation (
     $date: date!
@@ -218,7 +226,7 @@ export const friendCheck = async (uid: string, checkuid: string) => {
     });
 };
 
-//募集情報を送信(未使用)
+//募集情報を送信
 export const setRecruitment = async (
   uid: string,
   date: string,
@@ -290,4 +298,16 @@ export const checkUser = async (uid: string, client: ApolloClient<object>) => {
     .catch((err) => {
       return err;
     });
+};
+
+export const getFriend = async (uid: string) => {
+  return await client
+    .query({
+      query: GET_USER,
+      variables: {
+        uid: uid,
+      },
+    })
+    .then((res) => {})
+    .catch((err) => {});
 };
