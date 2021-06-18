@@ -20,7 +20,7 @@ const SearchBox = ({ map, maps }: any) => {
     <input
       type="text"
       ref={input}
-      className=" border border-gray-500 rounded focus:outline-none focus:border-green-500 p-1 w-1/2 absolute right-full"
+      className=" border border-gray-500 rounded focus:outline-none focus:border-green-500 p-1 w-1/2 absolute"
     />
   );
 };
