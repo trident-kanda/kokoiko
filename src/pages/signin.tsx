@@ -8,19 +8,16 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { gql, useApolloClient } from "@apollo/client";
 import { createId } from "../../util/util";
 import { checkUser, setUser } from "../../util/graphql";
 
 const Signin = () => {
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  const client = useApolloClient();
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (session?.user) {
           if (checkUser(session?.user?.id)) {
-            console.log("aaa");
             const id = createId();
             setUser(
               session?.user?.user_metadata.full_name,

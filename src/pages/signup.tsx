@@ -9,23 +9,12 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import Input from "../components/form/Input";
 import ErrorLabel from "../components/form/ErrorLabel";
-import { useMutation, gql, useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
 import { createId } from "../../util/util";
+import { setUser } from "../../util/graphql";
 const Signup = () => {
-  const SET_USER = gql`
-    mutation ($name: String!, $uid: uuid!, $friendid: Int!) {
-      insert_users(objects: { name: $name, uid: $uid, friendid: $friendid }) {
-        returning {
-          name
-          uid
-          friendid
-        }
-      }
-    }
-  `;
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
-  const [setUser] = useMutation(SET_USER);
+
   const { replace } = useRouter();
   const {
     handleSubmit,
@@ -45,7 +34,7 @@ const Signup = () => {
     const user: User | undefined = await signUp(data, setErrorMessage);
     if (user) {
       let id = createId();
-      setUser({ variables: { name: data.name, uid: user.id, friendid: id } });
+      setUser(data.name, user.id, id);
       changeName(data.name);
       setFriendId(id);
       replace("/");
