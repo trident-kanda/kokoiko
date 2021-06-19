@@ -122,6 +122,16 @@ const CHECK_USER = gql`
   }
 `;
 
+const GET_DISPLAY_DATA = gql`
+  query ($idList: [uuid]) {
+    recruitments(where: { uid: { _in: $idList } }) {
+      id
+      date
+      title
+    }
+  }
+`;
+
 export const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
@@ -299,11 +309,31 @@ export const checkUser = async (uid: string) => {
 export const getFriend = async (uid: string) => {
   return await client
     .query({
-      query: GET_USER,
+      query: GET_FRIEND,
       variables: {
         uid: uid,
       },
     })
-    .then((res) => {})
-    .catch((err) => {});
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const getDisplayData = async (list: [String]) => {
+  return await client
+    .query({
+      query: GET_DISPLAY_DATA,
+      variables: {
+        uid: list,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
 };
