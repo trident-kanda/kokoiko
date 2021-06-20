@@ -24,6 +24,7 @@ const Signin = () => {
               session.user.id,
               id
             );
+            setFriendId(id);
           }
         }
       }
