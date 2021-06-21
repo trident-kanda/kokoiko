@@ -74,7 +74,7 @@ const SET_RECRUITMENT = gql`
   mutation (
     $date: date!
     $detailPlace: String!
-    $numberPeople: smallint!
+    $numberPeople: Int!
     $overview: String!
     $time: time!
     $title: String!
@@ -248,6 +248,7 @@ export const setRecruitment = async (
   lat: number,
   lng: number
 ) => {
+  console.log(uid);
   return await client
     .mutate({
       mutation: SET_RECRUITMENT,
@@ -267,6 +268,7 @@ export const setRecruitment = async (
       return true;
     })
     .catch((err) => {
+      console.log(err);
       return false;
     });
 };
