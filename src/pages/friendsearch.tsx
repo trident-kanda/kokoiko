@@ -16,6 +16,7 @@ import {
 } from "../../util/graphql";
 
 const friendsearch = ({ user }: any) => {
+  console.log(user);
   const [inputid, setId] = useState("");
   const [modalState, modalChange] = useState(false);
   const [userData, setUserdata] = useState<userDataProps>();

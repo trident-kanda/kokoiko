@@ -1,5 +1,5 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
-
+import { format } from "date-fns";
 const SEND_FRIEND = gql`
   mutation ($uid: uuid!, $requestuid: uuid!) {
     insert_friendrequest(objects: { uid: $uid, requestuid: $requestuid }) {
@@ -74,7 +74,7 @@ const SET_RECRUITMENT = gql`
   mutation (
     $date: date!
     $detailPlace: String!
-    $numberPeople: Int!
+    $numberPeople: smallint!
     $overview: String!
     $time: time!
     $title: String!
@@ -123,8 +123,8 @@ const CHECK_USER = gql`
 `;
 
 const GET_DISPLAY_DATA = gql`
-  query ($idList: [uuid]) {
-    recruitments(where: { uid: { _in: $idList } }) {
+  query ($idList: [uuid!], $today: date) {
+    recruitments(where: { uid: { _in: $idList }, date: { _gte: $today } }) {
       id
       date
       title
@@ -324,12 +324,14 @@ export const getFriend = async (uid: string) => {
     });
 };
 
-export const getDisplayData = async (list: [String]) => {
+export const getDisplayData = async (list: String[]) => {
+  const today = format(new Date(), "yyyy-MM-dd");
   return await client
     .query({
       query: GET_DISPLAY_DATA,
       variables: {
         uid: list,
+        today: today,
       },
     })
     .then((res) => {

@@ -4,7 +4,16 @@ import Nav from "../components/Nav";
 import Main from "../components/Main";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
-
+import { getDisplayData, getFriend } from "../../util/graphql";
+type displayData = {
+  data: {
+    recruitments: {
+      id: number;
+      date: string;
+      title: string;
+    }[];
+  };
+};
 export default function Home() {
   return (
     <div>
@@ -22,6 +31,13 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  type data = {
+    data: {
+      friends: {
+        frienduid: string;
+      }[];
+    };
+  };
   const { user } = await supabase.auth.api.getUserByCookie(req);
   if (!user) {
     return {
@@ -29,7 +45,19 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       redirect: { destination: "/signin", permanent: false },
     };
   }
-
+  const friendData: data = await getFriend(user.id);
+  if (friendData.data.friends.length === 0) {
+    return {
+      props: {
+        user,
+      },
+    };
+  }
+  const friendList = friendData.data.friends.map((friend) => {
+    return friend.frienduid;
+  });
+  const res: displayData = await getDisplayData(friendList);
+  console.log(res.data);
   return {
     props: {
       user,
