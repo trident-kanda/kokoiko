@@ -122,7 +122,7 @@ const CHECK_USER = gql`
   }
 `;
 
-const GET_DISPLAY_DATA = gql`
+const GET_RECRUITMENT_DATA = gql`
   query ($idList: [uuid!], $today: date) {
     recruitments(where: { uid: { _in: $idList }, date: { _gte: $today } }) {
       id
@@ -333,11 +333,11 @@ export const getFriend = async (uid: string) => {
     });
 };
 
-export const getDisplayData = async (list: String[]) => {
+export const getRecruitmentData = async (list: String[]) => {
   const today = format(new Date(), "yyyy-MM-dd");
   return await client
     .query({
-      query: GET_DISPLAY_DATA,
+      query: GET_RECRUITMENT_DATA,
       variables: {
         uid: list,
         today: today,
