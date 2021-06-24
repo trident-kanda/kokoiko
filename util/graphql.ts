@@ -132,6 +132,15 @@ const GET_DISPLAY_DATA = gql`
   }
 `;
 
+const GET_FRIENDDATA = gql`
+  query ($uid: uuid) {
+    users(where: { uid: { _eq: $uid } }) {
+      name
+      friendid
+    }
+  }
+`;
+
 export const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
@@ -332,6 +341,22 @@ export const getDisplayData = async (list: String[]) => {
       variables: {
         uid: list,
         today: today,
+      },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+};
+
+export const getFriendData = async (uid: string) => {
+  return await client
+    .query({
+      query: GET_FRIENDDATA,
+      variables: {
+        uid: uid,
       },
     })
     .then((res) => {
