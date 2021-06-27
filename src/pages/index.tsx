@@ -4,8 +4,10 @@ import Nav from "../components/Nav";
 import Main from "../components/Main";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
-import { getDisplayData, getFriend } from "../../util/graphql";
-type displayData = {
+import { getFriend, getRecruitmentData } from "../../util/graphql";
+import { User } from "@supabase/supabase-js";
+import DisplayData from "../components/DisplayData";
+type res = {
   data: {
     recruitments: {
       id: number;
@@ -14,7 +16,16 @@ type displayData = {
     }[];
   };
 };
-export default function Home() {
+type displayData = {
+  id: number;
+  date: string;
+  title: string;
+}[];
+type props = {
+  user: User;
+  displayData?: displayData;
+};
+export default function Home({ user, displayData }: props) {
   return (
     <div>
       <Container>
@@ -23,7 +34,10 @@ export default function Home() {
         </Head>
         <Nav />
         <Main>
-          <div className="h-96 bg-white  sm:rounded-lg shadow p-4"></div>
+          <div className="h-96 bg-white  sm:rounded-lg shadow p-4 flex flex-wrap">
+            <DisplayData title={"名古屋観光"} />
+            <DisplayData title={"東京観光"} />
+          </div>
         </Main>
       </Container>
     </div>
@@ -56,11 +70,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const friendList = friendData.data.friends.map((friend) => {
     return friend.frienduid;
   });
-  const res: displayData = await getDisplayData(friendList);
-  console.log(res.data);
+  const res: res = await getRecruitmentData(friendList);
+  const displayData = res.data.recruitments;
   return {
     props: {
       user,
+      displayData,
     },
   };
 };
