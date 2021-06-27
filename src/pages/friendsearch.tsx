@@ -3,7 +3,6 @@ import { supabase } from "../../util/key";
 import Container from "../components/Container";
 import Link from "next/link";
 import { useState } from "react";
-import { gql, useApolloClient, useQuery } from "@apollo/client";
 import Modal from "react-modal";
 import ReactLoading from "react-loading";
 import {
@@ -114,7 +113,6 @@ const friendsearch = ({ user }: any) => {
                       userData.uid,
                       user.id
                     );
-                    console.log(friendState);
                     if (reqState === "err") {
                       alert("失敗しました。");
                       loadChange(false);
