@@ -133,8 +133,8 @@ const GET_RECRUITMENT_DATA = gql`
 `;
 
 const GET_FRIENDDATA = gql`
-  query ($uid: uuid) {
-    users(where: { uid: { _eq: $uid } }) {
+  query ($uid: [uuid!]) {
+    users(where: { uid: { _in: $uid } }) {
       name
       friendid
     }
@@ -351,7 +351,7 @@ export const getRecruitmentData = async (list: String[]) => {
     });
 };
 
-export const getFriendData = async (uid: string) => {
+export const getFriendData = async (uid: String[]) => {
   return await client
     .query({
       query: GET_FRIENDDATA,

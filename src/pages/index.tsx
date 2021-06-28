@@ -60,13 +60,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
   const friendData: data = await getFriend(user.id);
-  if (friendData.data.friends.length === 0) {
-    return {
-      props: {
-        user,
-      },
-    };
-  }
   const friendList = friendData.data.friends.map((friend) => {
     return friend.frienduid;
   });
