@@ -3,7 +3,20 @@ import Link from "next/link";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import { getFriend, getFriendData } from "../../util/graphql";
-const friendlist = () => {
+import { User } from "@supabase/supabase-js";
+type friendData = {
+  data: {
+    users: {
+      name: string;
+      friendId: string;
+    }[];
+  };
+};
+type props = {
+  user: User;
+  friendData: friendData;
+};
+const friendlist = ({ user, friendData }: props) => {
   return (
     <Container>
       <Link href="/userpage">
@@ -19,7 +32,7 @@ const friendlist = () => {
 export default friendlist;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  type data = {
+  type idData = {
     data: {
       friends: {
         frienduid: string;
@@ -33,15 +46,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       redirect: { destination: "/signin", permanent: false },
     };
   }
-  const friendId: data = await getFriend(user.id);
+  const friendId: idData = await getFriend(user.id);
   const friendList = friendId.data.friends.map((friend) => {
     return friend.frienduid;
   });
   const friendData = await getFriendData(friendList);
-  console.log(friendData.data.users);
   return {
     props: {
       user,
+      friendData,
     },
   };
 };
