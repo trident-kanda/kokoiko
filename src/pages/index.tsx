@@ -45,13 +45,6 @@ export default function Home({ user, displayData }: props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  type data = {
-    data: {
-      friends: {
-        frienduid: string;
-      }[];
-    };
-  };
   const { user } = await supabase.auth.api.getUserByCookie(req);
   if (!user) {
     return {
@@ -59,10 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       redirect: { destination: "/signin", permanent: false },
     };
   }
-  const friendData: data = await getFriend(user.id);
-  const friendList = friendData.data.friends.map((friend) => {
-    return friend.frienduid;
-  });
+  const friendList: string[] = await getFriend(user.id);
   const res: res = await getRecruitmentData(friendList);
   const displayData = res.data.recruitments;
   return {

@@ -17,6 +17,7 @@ type props = {
   friendData: friendData;
 };
 const friendlist = ({ user, friendData }: props) => {
+  console.log(friendData);
   return (
     <Container>
       <Link href="/userpage">
@@ -32,13 +33,6 @@ const friendlist = ({ user, friendData }: props) => {
 export default friendlist;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  type idData = {
-    data: {
-      friends: {
-        frienduid: string;
-      }[];
-    };
-  };
   const { user } = await supabase.auth.api.getUserByCookie(req);
   if (!user) {
     return {
@@ -46,10 +40,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       redirect: { destination: "/signin", permanent: false },
     };
   }
-  const friendId: idData = await getFriend(user.id);
-  const friendList = friendId.data.friends.map((friend) => {
-    return friend.frienduid;
-  });
+  const friendList: string[] = await getFriend(user.id);
   const friendData = await getFriendData(friendList);
   return {
     props: {

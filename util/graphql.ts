@@ -318,6 +318,13 @@ export const checkUser = async (uid: string) => {
 };
 
 export const getFriend = async (uid: string) => {
+  type idData = {
+    data: {
+      friends: {
+        frienduid: string;
+      }[];
+    };
+  };
   return await client
     .query({
       query: GET_FRIEND,
@@ -325,8 +332,11 @@ export const getFriend = async (uid: string) => {
         uid: uid,
       },
     })
-    .then((res) => {
-      return res;
+    .then((res: idData) => {
+      const friendList = res.data.friends.map((friend) => {
+        return friend.frienduid;
+      });
+      return friendList;
     })
     .catch((err) => {
       return err;
