@@ -1,6 +1,10 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { format } from "date-fns";
-import { getFriendRes } from "../src/types/graphqlTypes";
+import {
+  getFriendDataRes,
+  getFriendRes,
+  getUserRes,
+} from "../src/types/graphqlTypes";
 const SEND_FRIEND = gql`
   mutation ($uid: uuid!, $requestuid: uuid!) {
     insert_friendrequest(objects: { uid: $uid, requestuid: $requestuid }) {
@@ -168,7 +172,7 @@ export const getUser = async (friendid: string) => {
       query: GET_USER,
       variables: { friendid: friendid },
     })
-    .then((res) => {
+    .then((res: getUserRes) => {
       return res;
     })
     .catch((err) => {
@@ -362,7 +366,7 @@ export const getFriendData = async (uid: String[]) => {
         uid: uid,
       },
     })
-    .then((res) => {
+    .then((res: getFriendDataRes) => {
       return res;
     })
     .catch((err) => {
