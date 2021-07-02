@@ -22,6 +22,15 @@ export type getFriendRes = {
     }[];
   };
 };
+export type getRecruitmentDataRes = {
+  data: {
+    recruitments: {
+      id: string;
+      date: string;
+      title: string;
+    }[];
+  };
+};
 export type getFriendDataRes = {
   data: {
     users: {

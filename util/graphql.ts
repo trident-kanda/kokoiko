@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import {
   getFriendDataRes,
   getFriendRes,
+  getRecruitmentDataRes,
   getUserRes,
 } from "../src/types/graphqlTypes";
 const SEND_FRIEND = gql`
@@ -350,7 +351,7 @@ export const getRecruitmentData = async (list: String[]) => {
         today: today,
       },
     })
-    .then((res) => {
+    .then((res: getRecruitmentDataRes) => {
       return res;
     })
     .catch((err) => {
