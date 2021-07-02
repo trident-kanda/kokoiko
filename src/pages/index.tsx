@@ -7,15 +7,7 @@ import { supabase } from "../../util/key";
 import { getFriend, getRecruitmentData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import DisplayData from "../components/DisplayData";
-type res = {
-  data: {
-    recruitments: {
-      id: number;
-      date: string;
-      title: string;
-    }[];
-  };
-};
+
 type displayData = {
   id: number;
   date: string;
@@ -53,8 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
   const friendList: string[] = await getFriend(user.id);
-  const res: res = await getRecruitmentData(friendList);
-  const displayData = res.data.recruitments;
+  const displayData: displayData = await getRecruitmentData(friendList);
   return {
     props: {
       user,

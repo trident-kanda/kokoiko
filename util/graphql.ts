@@ -352,7 +352,7 @@ export const getRecruitmentData = async (list: String[]) => {
       },
     })
     .then((res: getRecruitmentDataRes) => {
-      return res;
+      return res.data.recruitments;
     })
     .catch((err) => {
       return err;
