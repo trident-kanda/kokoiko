@@ -368,7 +368,7 @@ export const getFriendData = async (uid: String[]) => {
       },
     })
     .then((res: getFriendDataRes) => {
-      return res;
+      return res.data.users;
     })
     .catch((err) => {
       return err;

@@ -5,13 +5,9 @@ import { supabase } from "../../util/key";
 import { getFriend, getFriendData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 type friendData = {
-  data: {
-    users: {
-      name: string;
-      friendId: string;
-    }[];
-  };
-};
+  name: string;
+  friendId: string;
+}[];
 type props = {
   user: User;
   friendData: friendData;
