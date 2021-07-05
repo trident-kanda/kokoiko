@@ -8,7 +8,7 @@ import ReactLoading from "react-loading";
 import {
   deleteRequest,
   friendCheck,
-  getUser,
+  getUserData,
   requestCheck,
   sendFriend,
   setFriend,
@@ -170,17 +170,17 @@ const friendsearch = ({ user }: any) => {
                     return;
                   }
                   loadChange(true);
-                  const res: any = await getUser(inputid);
-                  if (res.data.users.length !== 0) {
-                    setUserdata(res.data.users[0]);
+                  const UserDatares: any = await getUserData(inputid);
+                  if (UserDatares.length !== 0) {
+                    setUserdata(UserDatares[0]);
                     loadChange(false);
                     modalChange(true);
                   }
-                  if (res.data.users.length === 0) {
+                  if (UserDatares.length === 0) {
                     loadChange(false);
                     alert("存在してないIDです");
                   }
-                  if (res === "err") {
+                  if (UserDatares === "err") {
                     loadChange(false);
                     alert("エラー");
                   }

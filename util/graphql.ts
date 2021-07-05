@@ -15,7 +15,7 @@ const SEND_FRIEND = gql`
     }
   }
 `;
-const GET_USER = gql`
+const GET_USER_DATA = gql`
   query ($friendid: Int!) {
     users(where: { friendid: { _eq: $friendid } }) {
       name
@@ -167,14 +167,14 @@ export const sendFriend = async (uid: string, requid: string) => {
 };
 
 //ユーザーデータを取得
-export const getUser = async (friendid: string) => {
+export const getUserData = async (friendid: string) => {
   return await client
     .query({
-      query: GET_USER,
+      query: GET_USER_DATA,
       variables: { friendid: friendid },
     })
     .then((res: getUserRes) => {
-      return res;
+      return res.data.users;
     })
     .catch((err) => {
       return "err";

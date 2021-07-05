@@ -9,7 +9,7 @@
 // };
 export type getUserRes = {
   data: {
-    friends: {
+    users: {
       name: string;
       uid: string;
     }[];
