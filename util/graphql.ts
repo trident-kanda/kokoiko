@@ -1,6 +1,7 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { format } from "date-fns";
 import {
+  checkUserRes,
   getFriendDataRes,
   getFriendRes,
   getRecruitmentDataRes,
@@ -309,7 +310,7 @@ export const checkUser = async (uid: string) => {
         uid: uid,
       },
     })
-    .then((res) => {
+    .then((res: checkUserRes) => {
       if (res.data.users.length === 0) {
         return true;
       }

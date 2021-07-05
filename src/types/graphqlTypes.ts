@@ -39,3 +39,10 @@ export type getFriendDataRes = {
     }[];
   };
 };
+export type checkUserRes = {
+  data: {
+    users: {
+      uid: string;
+    }[];
+  };
+};
