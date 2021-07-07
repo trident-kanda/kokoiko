@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import { getFriend, getFriendData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
+import FriendView from "../components/FriendView";
 type friendData = {
   name: string;
   friendId: string;
@@ -21,6 +22,7 @@ const friendlist = ({ user, friendData }: props) => {
       </Link>
       <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  ">
         <h2 className="text-xl bold text-gray-500 pb-1">フレンドリスト</h2>
+        <FriendView id="99999999" name="山田太郎" />
       </div>
     </Container>
   );
