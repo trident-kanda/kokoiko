@@ -1,10 +1,11 @@
 import DeleteIcon from "./Icon/DeleteIcon";
 type props = {
+  uid: string;
   id: string;
   name: string;
   deleteList: (id: string) => void;
 };
-const FriendView = ({ id, name, deleteList }: props) => {
+const FriendView = ({ uid, id, name, deleteList }: props) => {
   return (
     <div className=" bg-gray-100 rounded-md flex p-5 my-4 items-center">
       <h2 className=" text-lg w-1/2">名前:{name}</h2>
@@ -13,6 +14,7 @@ const FriendView = ({ id, name, deleteList }: props) => {
         width="25"
         height="25"
         color={"rgb(107, 114, 128)"}
+        uid={uid}
         id={id}
         deleteList={deleteList}
       />

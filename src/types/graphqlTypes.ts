@@ -34,6 +34,7 @@ export type getRecruitmentDataRes = {
 export type getFriendDataRes = {
   data: {
     users: {
+      uid: string;
       name: string;
       friendid: string;
     }[];

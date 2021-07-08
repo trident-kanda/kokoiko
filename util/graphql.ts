@@ -141,6 +141,7 @@ const GET_RECRUITMENT_DATA = gql`
 const GET_FRIENDDATA = gql`
   query ($uid: [uuid!]) {
     users(where: { uid: { _in: $uid } }) {
+      uid
       name
       friendid
     }
@@ -359,7 +360,7 @@ export const getRecruitmentData = async (list: String[]) => {
       return err;
     });
 };
-
+//自分のフレンドの
 export const getFriendData = async (uid: String[]) => {
   return await client
     .query({
@@ -375,3 +376,7 @@ export const getFriendData = async (uid: String[]) => {
       return err;
     });
 };
+
+// export const deleteFriend = async (uid:string) => {
+
+// }

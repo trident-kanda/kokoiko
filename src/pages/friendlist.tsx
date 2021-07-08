@@ -7,6 +7,7 @@ import { User } from "@supabase/supabase-js";
 import FriendView from "../components/FriendView";
 import { useCallback, useState } from "react";
 type friendData = {
+  uid: string;
   name: string;
   friendid: string;
 }[];
@@ -37,6 +38,7 @@ const friendlist = ({ user, friendData }: props) => {
           return (
             <FriendView
               name={data.name}
+              uid={data.uid}
               id={data.friendid}
               key={num}
               deleteList={deleteList}

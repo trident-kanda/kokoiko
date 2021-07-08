@@ -2,10 +2,11 @@ type props = {
   width: string | number;
   height: string | number;
   color: string;
+  uid: string;
   id: string;
   deleteList: (id: string) => void;
 };
-const DeleteIcon = ({ width, height, color, deleteList, id }: props) => {
+const DeleteIcon = ({ width, height, color, deleteList, id, uid }: props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
