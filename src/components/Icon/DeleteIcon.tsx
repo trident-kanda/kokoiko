@@ -2,9 +2,10 @@ type props = {
   width: string | number;
   height: string | number;
   color: string;
-  id: number;
+  id: string;
+  deleteList: (id: string) => void;
 };
-const DeleteIcon = ({ width, height, color }: props) => {
+const DeleteIcon = ({ width, height, color, deleteList, id }: props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,6 +14,11 @@ const DeleteIcon = ({ width, height, color }: props) => {
       height={height}
       fill={color}
       className="icon "
+      onClick={() => {
+        if (confirm("本当に削除しますか？")) {
+          deleteList(id);
+        }
+      }}
     >
       <path
         fillRule="evenodd"

@@ -5,16 +5,27 @@ import { supabase } from "../../util/key";
 import { getFriend, getFriendData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import FriendView from "../components/FriendView";
+import { useCallback, useState } from "react";
 type friendData = {
   name: string;
-  friendId: string;
+  friendid: string;
 }[];
 type props = {
   user: User;
   friendData: friendData;
 };
 const friendlist = ({ user, friendData }: props) => {
-  console.log(friendData);
+  const [friendList, setList] = useState<friendData>(friendData);
+  const deleteList = useCallback(
+    (id: string) => {
+      setList(
+        friendList.filter((list) => {
+          return list.friendid !== id;
+        })
+      );
+    },
+    [setList]
+  );
   return (
     <Container>
       <Link href="/userpage">
@@ -22,7 +33,16 @@ const friendlist = ({ user, friendData }: props) => {
       </Link>
       <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  ">
         <h2 className="text-xl bold text-gray-500 pb-1">フレンドリスト</h2>
-        <FriendView id="99999999" name="山田太郎" />
+        {friendList.map((data, num) => {
+          return (
+            <FriendView
+              name={data.name}
+              id={data.friendid}
+              key={num}
+              deleteList={deleteList}
+            />
+          );
+        })}
       </div>
     </Container>
   );
