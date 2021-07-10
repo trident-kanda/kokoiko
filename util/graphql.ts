@@ -148,6 +148,18 @@ const GET_FRIENDDATA = gql`
   }
 `;
 
+const DELETE_FRIEND = gql`
+  mutation ($uid: uuid!, $frienduid: uuid!) {
+    delete_friends(
+      where: { uid: { _eq: $uid }, _and: { frienduid: { _eq: $frienduid } } }
+    ) {
+      returning {
+        uid
+      }
+    }
+  }
+`;
+
 export const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
@@ -360,7 +372,7 @@ export const getRecruitmentData = async (list: String[]) => {
       return err;
     });
 };
-//自分のフレンドの
+//自分のフレンドのデータを取得
 export const getFriendData = async (uid: String[]) => {
   return await client
     .query({
@@ -377,6 +389,15 @@ export const getFriendData = async (uid: String[]) => {
     });
 };
 
-// export const deleteFriend = async (uid:string) => {
-
-// }
+export const deleteFriend = async (uid: string, frienduid: string) => {
+  return await client
+    .mutate({
+      mutation: DELETE_FRIEND,
+      variables: {
+        uid: uid,
+        frienduid: frienduid,
+      },
+    })
+    .then((res) => {})
+    .catch((err) => {});
+};
