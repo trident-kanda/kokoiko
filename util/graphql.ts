@@ -388,7 +388,7 @@ export const getFriendData = async (uid: String[]) => {
       return err;
     });
 };
-
+//フレンドを削除する
 export const deleteFriend = async (uid: string, frienduid: string) => {
   return await client
     .mutate({

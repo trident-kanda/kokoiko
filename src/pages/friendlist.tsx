@@ -37,8 +37,9 @@ const friendlist = ({ user, friendData }: props) => {
         {friendList.map((data, num) => {
           return (
             <FriendView
+              frienduid={data.uid}
               name={data.name}
-              uid={data.uid}
+              uid={user.id}
               id={data.friendid}
               key={num}
               deleteList={deleteList}

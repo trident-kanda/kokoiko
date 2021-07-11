@@ -1,12 +1,23 @@
+import { deleteFriend } from "../../../util/graphql";
+
 type props = {
   width: string | number;
   height: string | number;
   color: string;
   uid: string;
+  frienduid: string;
   id: string;
   deleteList: (id: string) => void;
 };
-const DeleteIcon = ({ width, height, color, deleteList, id, uid }: props) => {
+const DeleteIcon = ({
+  width,
+  height,
+  color,
+  deleteList,
+  id,
+  uid,
+  frienduid,
+}: props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,6 +29,8 @@ const DeleteIcon = ({ width, height, color, deleteList, id, uid }: props) => {
       onClick={() => {
         if (confirm("本当に削除しますか？")) {
           deleteList(id);
+          deleteFriend(uid, frienduid);
+          deleteFriend(frienduid, uid);
         }
       }}
     >
