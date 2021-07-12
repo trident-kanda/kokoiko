@@ -6,7 +6,7 @@ import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
 import { getFriend, getRecruitmentData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
-import DisplayData from "../components/DisplayData";
+import RecruitmentView from "../components/RecruitmentView";
 
 type displayData = {
   id: number;
@@ -27,8 +27,8 @@ export default function Home({ user, displayData }: props) {
         <Nav />
         <Main>
           <div className="h-96 bg-white  sm:rounded-lg shadow p-4 flex flex-wrap">
-            <DisplayData title={"名古屋観光"} />
-            <DisplayData title={"東京観光"} />
+            <RecruitmentView title={"名古屋観光"} />
+            <RecruitmentView title={"東京観光"} />
           </div>
         </Main>
       </Container>

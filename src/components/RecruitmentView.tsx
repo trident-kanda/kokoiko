@@ -1,7 +1,7 @@
 type props = {
   title: string;
 };
-const DisplayData = ({ title }: any) => {
+const RecruitmentView = ({ title }: any) => {
   return (
     <div className="w-full sm:w-1/2 p-2">
       <h2 className="text-xl bg-green-300 py-1  text-white text-center">
@@ -10,4 +10,4 @@ const DisplayData = ({ title }: any) => {
     </div>
   );
 };
-export default DisplayData;
+export default RecruitmentView;
