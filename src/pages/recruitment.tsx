@@ -17,7 +17,12 @@ import ReactLoading from "react-loading";
 import { supabase } from "../../util/key";
 import { User } from "@supabase/supabase-js";
 import { setRecruitment } from "../../util/graphql";
-export default function recruiment() {
+import { GetServerSideProps } from "next";
+
+type props = {
+  user: User | null;
+};
+export default function recruiment({ user }: props) {
   type formProps = {
     date: string;
     detailPlace: string;
@@ -45,7 +50,6 @@ export default function recruiment() {
   const [apiReady, setReady] = useState(false);
   const [load, loadChange] = useState(false);
   const [mapError, mapErrorSet] = useState<null | string>(null);
-  // const [setRecruitment, { data }] = useMutation(SET_RECRUITMENT);
   const {
     handleSubmit,
     register,
@@ -72,7 +76,7 @@ export default function recruiment() {
       return;
     }
     loadChange(true);
-    const user: User | null = supabase.auth.user();
+
     if (user) {
       const res = await setRecruitment(
         user.id,
@@ -83,7 +87,8 @@ export default function recruiment() {
         data.time,
         data.title,
         latLng.lat,
-        latLng.lng
+        latLng.lng,
+        user?.user_metadata.full_name
       );
       if (res) {
         loadChange(false);
@@ -186,3 +191,18 @@ export default function recruiment() {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  if (!user) {
+    return {
+      props: {},
+      redirect: { destination: "/signin", permanent: false },
+    };
+  }
+  return {
+    props: {
+      user,
+    },
+  };
+};

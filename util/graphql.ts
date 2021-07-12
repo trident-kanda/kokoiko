@@ -87,6 +87,7 @@ const SET_RECRUITMENT = gql`
     $uid: uuid!
     $lat: float8!
     $lng: float8!
+    $name: String!
   ) {
     insert_recruitments(
       objects: {
@@ -99,6 +100,7 @@ const SET_RECRUITMENT = gql`
         uid: $uid
         lat: $lat
         lng: $lng
+        name: $name
       }
     ) {
       returning {
@@ -274,7 +276,8 @@ export const setRecruitment = async (
   time: string,
   title: string,
   lat: number,
-  lng: number
+  lng: number,
+  name: string
 ) => {
   console.log(uid);
   return await client
@@ -290,6 +293,7 @@ export const setRecruitment = async (
         title: title,
         lat: lat,
         lng: lng,
+        name: name,
       },
     })
     .then((res) => {

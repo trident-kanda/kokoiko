@@ -7,6 +7,7 @@ const RecruitmentView = ({ title }: any) => {
       <h2 className="text-xl bg-green-300 py-1  text-white text-center">
         {title}
       </h2>
+      <p>2020-03-21</p>
     </div>
   );
 };
