@@ -25,7 +25,7 @@ const DeleteIcon = ({
       width={width}
       height={height}
       fill={color}
-      className="icon "
+      className="icon cursor-pointer"
       onClick={() => {
         if (confirm("本当に削除しますか？")) {
           deleteList(id);
