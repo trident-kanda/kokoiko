@@ -28,6 +28,7 @@ export type getRecruitmentDataRes = {
       id: string;
       date: string;
       title: string;
+      name: string;
     }[];
   };
 };

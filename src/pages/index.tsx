@@ -12,6 +12,7 @@ type displayData = {
   id: number;
   date: string;
   title: string;
+  name: string;
 }[];
 type props = {
   user: User;
