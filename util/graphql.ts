@@ -137,6 +137,7 @@ const GET_RECRUITMENT_DATA = gql`
       date
       title
       name
+      overview
     }
   }
 `;
