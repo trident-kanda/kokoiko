@@ -29,9 +29,26 @@ export default function Home({ user, displayData }: props) {
         <Nav />
         <Main>
           <div className=" bg-white  sm:rounded-lg shadow p-4 flex flex-wrap">
-            <RecruitmentView title={"名古屋観光"} />
-            <RecruitmentView title={"東京観光"} />
-            <RecruitmentView title={"東京観光"} />
+            <RecruitmentView
+              title={"名古屋観光"}
+              date={"2020-01-02"}
+              name={"太郎"}
+              overview={"aaaaaaaaaaaaaaaaaaaaaaa"}
+            />
+            <RecruitmentView
+              title={"東京観光"}
+              date={"2020-01-02"}
+              name={"太郎"}
+              overview={"iiiiii"}
+            />
+            <RecruitmentView
+              title={"東京観光"}
+              date={"2020-01-02"}
+              name={"太郎"}
+              overview={
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            />
           </div>
         </Main>
       </Container>
