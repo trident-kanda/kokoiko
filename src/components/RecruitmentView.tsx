@@ -1,7 +1,10 @@
 type props = {
   title: string;
+  date: string;
+  name: string;
+  overview: string;
 };
-const RecruitmentView = ({ title }: any) => {
+const RecruitmentView = ({ title, date, name, overview }: props) => {
   return (
     <div className="w-full sm:w-1/2 p-2 border-gray-500">
       <div className="shadow">
@@ -13,12 +16,10 @@ const RecruitmentView = ({ title }: any) => {
         </div>
         <div className="p-1">
           <div className="flex justify-between">
-            <a className="text-left">2020-03-21</a>
-            <a className="text-right">名前</a>
+            <a className="text-left">{date}</a>
+            <a className="text-right">{name}</a>
           </div>
-          <p>
-            ああああああああああああああああああああああああああああああああああああ
-          </p>
+          <p>{overview}</p>
         </div>
       </div>
     </div>
