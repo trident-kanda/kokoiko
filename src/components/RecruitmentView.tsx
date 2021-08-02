@@ -6,8 +6,8 @@ type props = {
 };
 const RecruitmentView = ({ title, date, name, overview }: props) => {
   return (
-    <div className="w-full sm:w-1/2 p-2 border-gray-500">
-      <div className="shadow">
+    <div className="w-full sm:w-1/2 p-2 border-gray-500 ">
+      <div className="shadow h-full">
         <h2 className="text-xl bg-green-300 py-1  text-white text-center">
           {title}
         </h2>
@@ -19,7 +19,7 @@ const RecruitmentView = ({ title, date, name, overview }: props) => {
             <a className="text-left">{date}</a>
             <a className="text-right">{name}</a>
           </div>
-          <p>{overview}</p>
+          <p className="break-words ">{overview}</p>
         </div>
       </div>
     </div>
