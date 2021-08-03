@@ -17,7 +17,7 @@ type displayData = {
 }[];
 type props = {
   user: User;
-  displayData?: displayData;
+  displayData: displayData;
 };
 export default function Home({ user, displayData }: props) {
   return (
@@ -28,28 +28,28 @@ export default function Home({ user, displayData }: props) {
         </Head>
         <Nav />
         <Main>
-          <div className=" bg-white  sm:rounded-lg shadow p-4 flex flex-wrap ">
-            <RecruitmentView
-              title={"名古屋観光"}
-              date={"2020-01-02"}
-              name={"太郎"}
-              overview={"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
-            />
-            <RecruitmentView
-              title={"東京観光"}
-              date={"2020-01-02"}
-              name={"太郎"}
-              overview={"iiiiii"}
-            />
-            <RecruitmentView
-              title={"東京観光"}
-              date={"2020-01-02"}
-              name={"太郎"}
-              overview={
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-              }
-            />
-          </div>
+          {displayData.length === 0 && (
+            <div className=" bg-white  sm:rounded-lg shadow p-4  ">
+              <div className="flex items-center justify-center h-96">
+                <p>投稿がありません</p>
+              </div>
+            </div>
+          )}
+          {displayData.length !== 0 && (
+            <div className=" bg-white  sm:rounded-lg shadow p-4 flex flex-wrap ">
+              {displayData.map((item) => {
+                return (
+                  <RecruitmentView
+                    key={item.id}
+                    title={item.title}
+                    date={item.date}
+                    name={item.name}
+                    overview={item.overview}
+                  />
+                );
+              })}
+            </div>
+          )}
         </Main>
       </Container>
     </>
