@@ -7,6 +7,7 @@ import { supabase } from "../../util/key";
 import { getFriend, getRecruitmentData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import RecruitmentView from "../components/RecruitmentView";
+import SadIcon from "../components/Icon/SadIcon";
 
 type displayData = {
   id: number;
@@ -31,7 +32,12 @@ export default function Home({ user, displayData }: props) {
           {displayData.length === 0 && (
             <div className=" bg-white  sm:rounded-lg shadow p-4  ">
               <div className="flex items-center justify-center h-96">
-                <p>投稿がありません</p>
+                <div>
+                  <SadIcon />
+                  <p className="text-lg font-bold text-gray-500">
+                    投稿がありません
+                  </p>
+                </div>
               </div>
             </div>
           )}
