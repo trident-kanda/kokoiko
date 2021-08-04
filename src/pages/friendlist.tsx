@@ -6,6 +6,7 @@ import { getFriend, getFriendData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import FriendView from "../components/FriendView";
 import { useCallback, useState } from "react";
+import SadIcon from "../components/Icon/SadIcon";
 type friendData = {
   uid: string;
   name: string;
@@ -34,6 +35,16 @@ const friendlist = ({ user, friendData }: props) => {
       </Link>
       <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  ">
         <h2 className="text-xl bold text-gray-500 pb-1">フレンドリスト</h2>
+        {friendList.length === 0 && (
+          <div className="flex items-center justify-center h-96">
+            <div>
+              <SadIcon />
+              <p className="text-lg font-bold text-gray-500">
+                フレンドがいません
+              </p>
+            </div>
+          </div>
+        )}
         {friendList.map((data, num) => {
           return (
             <FriendView
