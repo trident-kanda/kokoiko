@@ -8,6 +8,7 @@ import { getFriend, getRecruitmentData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import RecruitmentView from "../components/RecruitmentView";
 import SadIcon from "../components/Icon/SadIcon";
+import { id } from "date-fns/locale";
 
 type displayData = {
   id: number;
@@ -51,6 +52,7 @@ export default function Home({ user, displayData }: props) {
                     date={item.date}
                     name={item.name}
                     overview={item.overview}
+                    id={item.id}
                   />
                 );
               })}

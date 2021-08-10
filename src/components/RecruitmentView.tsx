@@ -3,8 +3,9 @@ type props = {
   date: string;
   name: string;
   overview: string;
+  id: number;
 };
-const RecruitmentView = ({ title, date, name, overview }: props) => {
+const RecruitmentView = ({ title, date, name, overview, id }: props) => {
   return (
     <div className="w-full sm:w-1/2 p-2 border-gray-500 ">
       <div className="shadow h-full">
