@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type props = {
   title: string;
   date: string;
@@ -10,7 +12,9 @@ const RecruitmentView = ({ title, date, name, overview, id }: props) => {
     <div className="w-full sm:w-1/2 p-2 border-gray-500 ">
       <div className="shadow h-full">
         <h2 className="text-xl bg-green-300 py-1  text-white text-center">
-          {title}
+          <Link href={"/" + id}>
+            <a>{title}</a>
+          </Link>
         </h2>
         <div className="bg-gray-50 h-40 flex justify-center items-center">
           <p className="text-gray-200 text-3xl">NoImage</p>
