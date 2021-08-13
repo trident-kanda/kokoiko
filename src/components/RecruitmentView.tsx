@@ -12,7 +12,7 @@ const RecruitmentView = ({ title, date, name, overview, id }: props) => {
     <div className="w-full sm:w-1/2 p-2 border-gray-500 ">
       <div className="shadow h-full">
         <h2 className="text-xl bg-green-300 py-1  text-white text-center">
-          <Link href={"/" + id}>
+          <Link href={`/recruitment/${id}`}>
             <a>{title}</a>
           </Link>
         </h2>
