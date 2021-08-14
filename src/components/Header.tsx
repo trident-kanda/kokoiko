@@ -11,17 +11,19 @@ const Header = () => {
           <Link href="/">
             <a className=" font-bold text-3xl text-green-500">KOKOIKO</a>
           </Link>
-          {pathname !== "/signin" && pathname !== "/signup" && (
-            <button
-              className="py-2 bg-green-500 rounded-lg hover:bg-green-300 w-24 text-white focus:outline-none"
-              onClick={() => {
-                supabase.auth.signOut();
-                push("/signin");
-              }}
-            >
-              ログアウト
-            </button>
-          )}
+          {pathname !== "/signin" &&
+            pathname !== "/signup" &&
+            pathname !== "/404" && (
+              <button
+                className="py-2 bg-green-500 rounded-lg hover:bg-green-300 w-24 text-white focus:outline-none"
+                onClick={() => {
+                  supabase.auth.signOut();
+                  push("/signin");
+                }}
+              >
+                ログアウト
+              </button>
+            )}
         </div>
       </div>
     </header>

@@ -8,7 +8,6 @@ import { getFriend, getRecruitmentData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import RecruitmentView from "../components/RecruitmentView";
 import SadIcon from "../components/Icon/SadIcon";
-import { id } from "date-fns/locale";
 
 type displayData = {
   id: number;
