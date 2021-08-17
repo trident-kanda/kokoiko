@@ -36,11 +36,6 @@ export default function recruiment({ user }: props) {
     lat: number;
     lng: number;
   };
-  type user_metadata = {
-    avatar_url: string;
-    friendid: string;
-    full_name: string;
-  };
 
   const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
   const [latLng, setLatLng] = useState<latlng | null>(null);
