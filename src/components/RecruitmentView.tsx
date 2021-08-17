@@ -16,8 +16,12 @@ const RecruitmentView = ({ title, date, name, overview, id }: props) => {
             {title}
           </a>
         </Link>
-        <div className="bg-gray-50 h-40 flex justify-center items-center">
-          <p className="text-gray-200 text-3xl">NoImage</p>
+        <div className="bg-gray-50 h-40 ">
+          <Link href={`/recruitment/${id}`}>
+            <a className="text-gray-200 text-3xl  h-full w-full flex items-center justify-center">
+              <p>NoImage</p>
+            </a>
+          </Link>
         </div>
         <div className="p-1">
           <div className="flex justify-between">
