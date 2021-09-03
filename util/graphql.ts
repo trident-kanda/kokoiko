@@ -164,6 +164,14 @@ const DELETE_FRIEND = gql`
   }
 `;
 
+const GET_ALL_RECRUITMENTS_ID = gql`
+  query MyQuery {
+    recruitments {
+      id
+    }
+  }
+`;
+
 export const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
@@ -406,4 +414,16 @@ export const deleteFriend = async (uid: string, frienduid: string) => {
     })
     .then((res) => {})
     .catch((err) => {});
+};
+
+export const getAllRecruitmentsId = async () => {
+  const data = await client
+    .query({
+      query: GET_ALL_RECRUITMENTS_ID,
+    })
+    .then((res) => {
+      return res.data.recruitments;
+    })
+    .catch((err) => {});
+  return data;
 };
