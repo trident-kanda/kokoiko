@@ -16,8 +16,8 @@ import Input from "../components/form/Input";
 import ReactLoading from "react-loading";
 import { supabase } from "../../util/key";
 import { User } from "@supabase/supabase-js";
-import { setRecruitment } from "../../util/graphql";
 import { GetServerSideProps } from "next";
+import { setRecruitment } from "../../util/graphql";
 
 type props = {
   user: User | null;
