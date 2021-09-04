@@ -415,15 +415,3 @@ export const deleteFriend = async (uid: string, frienduid: string) => {
     .then((res) => {})
     .catch((err) => {});
 };
-
-export const getAllRecruitmentsId = async () => {
-  const data = await client
-    .query({
-      query: GET_ALL_RECRUITMENTS_ID,
-    })
-    .then((res) => {
-      return res.data.recruitments;
-    })
-    .catch((err) => {});
-  return data;
-};
