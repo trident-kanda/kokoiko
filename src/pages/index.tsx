@@ -4,7 +4,7 @@ import Nav from "../components/Nav";
 import Main from "../components/Main";
 import { GetServerSideProps } from "next";
 import { supabase } from "../../util/key";
-import { getFriend, getRecruitmentData } from "../../util/graphql";
+import { getFriend, getRecruitmentsData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import RecruitmentView from "../components/RecruitmentView";
 import SadIcon from "../components/Icon/SadIcon";
@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     };
   }
   const friendList: string[] = await getFriend(user.id);
-  const displayData: displayData = await getRecruitmentData(friendList);
+  const displayData: displayData = await getRecruitmentsData(friendList);
   return {
     props: {
       user,

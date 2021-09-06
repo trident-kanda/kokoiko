@@ -22,7 +22,7 @@ export type getFriendRes = {
     }[];
   };
 };
-export type getRecruitmentDataRes = {
+export type getRecruitmentsDataRes = {
   data: {
     recruitments: {
       id: string;

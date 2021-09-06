@@ -4,7 +4,7 @@ import {
   checkUserRes,
   getFriendDataRes,
   getFriendRes,
-  getRecruitmentDataRes,
+  getRecruitmentsDataRes,
   getUserRes,
 } from "../src/types/graphqlTypes";
 const SEND_FRIEND = gql`
@@ -130,7 +130,7 @@ const CHECK_USER = gql`
   }
 `;
 
-const GET_RECRUITMENT_DATA = gql`
+const GET_RECRUITMENTS_DATA = gql`
   query ($idList: [uuid!], $today: date) {
     recruitments(where: { uid: { _in: $idList }, date: { _gte: $today } }) {
       id
@@ -160,14 +160,6 @@ const DELETE_FRIEND = gql`
       returning {
         uid
       }
-    }
-  }
-`;
-
-const GET_ALL_RECRUITMENTS_ID = gql`
-  query MyQuery {
-    recruitments {
-      id
     }
   }
 `;
@@ -369,23 +361,24 @@ export const getFriend = async (uid: string) => {
     });
 };
 
-export const getRecruitmentData = async (list: String[]) => {
+export const getRecruitmentsData = async (list: String[]) => {
   const today = format(new Date(), "yyyy-MM-dd");
   return await client
     .query({
-      query: GET_RECRUITMENT_DATA,
+      query: GET_RECRUITMENTS_DATA,
       variables: {
         uid: list,
         today: today,
       },
     })
-    .then((res: getRecruitmentDataRes) => {
+    .then((res: getRecruitmentsDataRes) => {
       return res.data.recruitments;
     })
     .catch((err) => {
       return err;
     });
 };
+
 //自分のフレンドのデータを取得
 export const getFriendData = async (uid: String[]) => {
   return await client
