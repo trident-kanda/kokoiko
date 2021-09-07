@@ -142,6 +142,24 @@ const GET_RECRUITMENTS_DATA = gql`
   }
 `;
 
+const GET_RECRUITMENT_DATA = gql`
+  query ($id: Int!) {
+    recruitments(where: { id: { _eq: $id } }) {
+      date
+      detailPlace
+      id
+      lat
+      lng
+      name
+      numberPeople
+      overview
+      time
+      title
+      uid
+    }
+  }
+`;
+
 const GET_FRIENDDATA = gql`
   query ($uid: [uuid!]) {
     users(where: { uid: { _in: $uid } }) {
@@ -407,4 +425,20 @@ export const deleteFriend = async (uid: string, frienduid: string) => {
     })
     .then((res) => {})
     .catch((err) => {});
+};
+
+export const getRecruintmentData = async (id: number) => {
+  return await client
+    .query({
+      query: GET_RECRUITMENT_DATA,
+      variables: {
+        id: id,
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return err;
+    });
 };
