@@ -427,7 +427,7 @@ export const deleteFriend = async (uid: string, frienduid: string) => {
     .catch((err) => {});
 };
 
-export const getRecruintmentData = async (id: number) => {
+export const getRecruintmentData = async (id: number | string) => {
   return await client
     .query({
       query: GET_RECRUITMENT_DATA,
@@ -439,6 +439,6 @@ export const getRecruintmentData = async (id: number) => {
       return res.data;
     })
     .catch((err) => {
-      return err;
+      return false;
     });
 };

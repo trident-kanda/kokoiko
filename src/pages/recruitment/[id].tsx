@@ -16,21 +16,22 @@ export default id;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-  const id = Number(req.url?.split("/")[2]);
+  const id = String(req.url?.split("/")[2]);
   const res = await getRecruintmentData(id);
-  console.log(res.data);
+  console.log(res);
   if (!user) {
     return {
       props: {},
       redirect: { destination: "/signin", permanent: false },
     };
   }
-  if (!res.data) {
+  if (!res) {
     return {
       props: {},
       redirect: { destination: "/404" },
     };
   }
+
   return {
     props: {
       user,
