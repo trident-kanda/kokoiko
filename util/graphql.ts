@@ -427,6 +427,7 @@ export const deleteFriend = async (uid: string, frienduid: string) => {
     .catch((err) => {});
 };
 
+//idのデータを取得
 export const getRecruintmentData = async (id: number | string) => {
   return await client
     .query({
