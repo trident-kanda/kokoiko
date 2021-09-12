@@ -378,7 +378,7 @@ export const getFriend = async (uid: string) => {
       return err;
     });
 };
-
+//今の日付より後の投稿を取得
 export const getRecruitmentsData = async (list: String[]) => {
   const today = format(new Date(), "yyyy-MM-dd");
   return await client
