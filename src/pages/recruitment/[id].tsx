@@ -14,10 +14,12 @@ const id = () => {
 
 export default id;
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query,
+}) => {
   const { user } = await supabase.auth.api.getUserByCookie(req);
-  const id = String(req.url?.split("/")[2]);
-  console.log(req.url);
+  const id: string = String(query.id);
   const res = await getRecruintmentData(id);
   console.log(res);
   if (!user) {
@@ -26,14 +28,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       redirect: { destination: "/signin", permanent: false },
     };
   }
-  //投稿がなかったら404に返す
+  // 投稿がなかったら404に返す;
   if (!res) {
     return {
       props: {},
       redirect: { destination: "/404" },
     };
   }
-  // const check = friendCheck(user.id)
+  // const check = friendCheck(user.id);
   return {
     props: {
       user,
