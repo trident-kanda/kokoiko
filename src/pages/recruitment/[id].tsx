@@ -20,6 +20,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const { user } = await supabase.auth.api.getUserByCookie(req);
   const id: string = String(query.id);
+  //idの募集データを取得
   const res = await getRecruintmentData(id);
   console.log(res);
   if (!user) {
