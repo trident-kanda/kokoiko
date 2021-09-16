@@ -1,11 +1,8 @@
 import { GetServerSideProps } from "next";
-import { redirect } from "next/dist/next-server/server/api-utils";
-import { useRouter } from "next/router";
-import { friendCheck, getRecruintmentData } from "../../../util/graphql";
+import { getRecruintmentData } from "../../../util/graphql";
 import { supabase } from "../../../util/key";
 import Container from "../../components/Container";
 import Head from "next/head";
-import Main from "../../components/Main";
 import Link from "next/link";
 const id = () => {
   return (
