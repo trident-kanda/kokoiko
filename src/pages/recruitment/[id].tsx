@@ -6,6 +6,7 @@ import { supabase } from "../../../util/key";
 import Container from "../../components/Container";
 import Head from "next/head";
 import Main from "../../components/Main";
+import Link from "next/link";
 const id = () => {
   return (
     <>
@@ -13,9 +14,10 @@ const id = () => {
         <Head>
           <title>KOKOIKO</title>
         </Head>
-        <Main>
-          <h1>aaa</h1>
-        </Main>
+        <Link href="/">
+          <a className="hover:text-gray-500">戻る</a>
+        </Link>
+        <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  "></div>
       </Container>
     </>
   );
