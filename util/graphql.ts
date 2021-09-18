@@ -359,7 +359,7 @@ export const checkUser = async (uid: string) => {
       return false;
     });
 };
-
+//自分のフレンドのuidを取得
 export const getFriend = async (uid: string) => {
   return await client
     .query({
