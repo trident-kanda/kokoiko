@@ -338,7 +338,7 @@ export const setUser = async (name: string, uid: string, friendid: string) => {
     .then((res) => {})
     .catch((err) => {});
 };
-
+//uidが存在しているかチェック
 export const checkUser = async (uid: string) => {
   return await client
     .query({
