@@ -324,7 +324,7 @@ export const setRecruitment = async (
       return false;
     });
 };
-
+//ユーザーを登録
 export const setUser = async (name: string, uid: string, friendid: string) => {
   return await client
     .mutate({
