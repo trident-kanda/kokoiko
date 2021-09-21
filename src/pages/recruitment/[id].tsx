@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { getRecruintmentData } from "../../../util/graphql";
+import { friendCheck, getRecruintmentData } from "../../../util/graphql";
 import { supabase } from "../../../util/key";
 import Container from "../../components/Container";
 import Head from "next/head";
@@ -14,7 +14,9 @@ const id = () => {
         <Link href="/">
           <a className="hover:text-gray-500">戻る</a>
         </Link>
-        <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10  "></div>
+        <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 ">
+
+        </div>
       </Container>
     </>
   );
@@ -30,7 +32,6 @@ export const getServerSideProps: GetServerSideProps = async ({
   const id: string = String(query.id);
   //idの募集データを取得
   const res = await getRecruintmentData(id);
-  console.log(res);
   if (!user) {
     return {
       props: {},
@@ -44,10 +45,17 @@ export const getServerSideProps: GetServerSideProps = async ({
       redirect: { destination: "/404" },
     };
   }
-  // const check = friendCheck(user.id);
+  const recData = res.recruitments[0]
+  console.log(recData)
+  if(user.id !== recData.uid){
+  const check = await friendCheck(user.id,recData.uid)
+  console.log(check)
+  }
+  
   return {
     props: {
       user,
+      recData
     },
   };
 };
