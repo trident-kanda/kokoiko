@@ -46,12 +46,16 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
   const recData = res.recruitments[0]
-  console.log(recData)
+  let check = true
   if(user.id !== recData.uid){
-  const check = await friendCheck(user.id,recData.uid)
-  console.log(check)
+   check = await friendCheck(user.id,recData.uid)
   }
-  
+  if(!check){
+    return {
+      props: {},
+      redirect: { destination: "/" },
+    };
+  }
   return {
     props: {
       user,
