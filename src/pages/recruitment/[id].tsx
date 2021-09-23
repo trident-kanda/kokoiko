@@ -48,6 +48,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const recData = res.recruitments[0]
   let check = true
   if(user.id !== recData.uid){
+    //自分のフレンドの投稿かどうかを確認する
    check = await friendCheck(user.id,recData.uid)
   }
   if(!check){
