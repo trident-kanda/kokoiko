@@ -4,7 +4,8 @@ import { supabase } from "../../../util/key";
 import Container from "../../components/Container";
 import Head from "next/head";
 import Link from "next/link";
-const id = () => {
+const id = ({user,
+  recData}:any) => {
   return (
     <>
       <Container>
