@@ -4,8 +4,15 @@ import { supabase } from "../../../util/key";
 import Container from "../../components/Container";
 import Head from "next/head";
 import Link from "next/link";
+import { useEffect } from "react";
 const id = ({user,
-  recData}:any) => {
+  recData,check}:any) => {
+    useEffect(()=>{
+      if(!check){
+        alert("フレンドの記事ではありません")
+        
+      }
+    },[])
   return (
     <>
       <Container>
@@ -52,16 +59,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     //自分のフレンドの投稿かどうかを確認する
    check = await friendCheck(user.id,recData.uid)
   }
-  if(!check){
-    return {
-      props: {},
-      redirect: { destination: "/" },
-    };
-  }
   return {
     props: {
       user,
-      recData
+      recData,
+      check
     },
   };
 };
