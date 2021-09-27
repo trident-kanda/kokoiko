@@ -181,7 +181,7 @@ const DELETE_FRIEND = gql`
     }
   }
 `;
-
+//apolloを使うための準備
 export const client = new ApolloClient({
   uri: process.env.GRAPHQL_URL,
   cache: new InMemoryCache(),
