@@ -5,12 +5,15 @@ import Container from "../../components/Container";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect } from "react";
+import { useRouter } from "next/dist/client/router";
+import { route } from "next/dist/next-server/server/router";
 const id = ({user,
   recData,check}:any) => {
+    const router = useRouter()
     useEffect(()=>{
       if(!check){
         alert("フレンドの記事ではありません")
-        
+        router.push("/")
       }
     },[])
   return (
