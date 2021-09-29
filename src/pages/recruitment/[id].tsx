@@ -11,6 +11,7 @@ const id = ({user,
   recData,check}:any) => {
     const router = useRouter()
     useEffect(()=>{
+      //フレンドの記事じゃない場合戻る
       if(!check){
         alert("フレンドの記事ではありません")
         router.push("/")
