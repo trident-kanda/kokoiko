@@ -6,7 +6,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
-import { route } from "next/dist/next-server/server/router";
 const id = ({user,
   recData,check}:any) => {
     const router = useRouter()
@@ -27,7 +26,7 @@ const id = ({user,
           <a className="hover:text-gray-500">戻る</a>
         </Link>
         <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 ">
-
+            
         </div>
       </Container>
     </>
