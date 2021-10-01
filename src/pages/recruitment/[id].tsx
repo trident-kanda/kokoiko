@@ -25,7 +25,7 @@ const id = ({user,
         <Link href="/">
           <a className="hover:text-gray-500">戻る</a>
         </Link>
-        <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10 ">
+        <div className="bg-white shadow-sm sm:rounded-lg pt-5 px-10 pb-10">
             
         </div>
       </Container>
