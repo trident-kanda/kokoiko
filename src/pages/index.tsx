@@ -26,7 +26,7 @@ type latlng = {
   lat: number;
   lng: number;
 };
-
+//Map準備
 const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
 const [latLng, setLatLng] = useState<latlng | null>(null);
 const [map, setMap] = useState<any>(null);
