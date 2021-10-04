@@ -8,7 +8,6 @@ import { getFriend, getRecruitmentsData } from "../../util/graphql";
 import { User } from "@supabase/supabase-js";
 import RecruitmentView from "../components/RecruitmentView";
 import SadIcon from "../components/Icon/SadIcon";
-import { useState } from "react";
 
 type displayData = {
   id: number;
@@ -22,19 +21,6 @@ type props = {
   displayData: displayData;
 };
 
-type latlng = {
-  lat: number;
-  lng: number;
-};
-//Map準備
-const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
-const [latLng, setLatLng] = useState<latlng | null>(null);
-const [map, setMap] = useState<any>(null);
-const [maps, setMaps] = useState<any>(null);
-const [marker, setMarker] = useState<any>(null);
-const [apiReady, setReady] = useState(false);
-const [load, loadChange] = useState(false);
-const [mapError, mapErrorSet] = useState<null | string>(null);
 
 export default function Home({ user, displayData }: props) {
   return (

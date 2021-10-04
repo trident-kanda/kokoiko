@@ -4,8 +4,22 @@ import { supabase } from "../../../util/key";
 import Container from "../../components/Container";
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
+
+type latlng = {
+  lat: number;
+  lng: number;
+};
+//Map準備
+const defaultLatLng = { lat: 35.6809591, lng: 139.7673068 };
+const [latLng, setLatLng] = useState<latlng | null>(null);
+const [map, setMap] = useState<any>(null);
+const [maps, setMaps] = useState<any>(null);
+const [marker, setMarker] = useState<any>(null);
+const [apiReady, setReady] = useState(false);
+const [load, loadChange] = useState(false);
+const [mapError, mapErrorSet] = useState<null | string>(null);
 const id = ({user,
   recData,check}:any) => {
     const router = useRouter()
