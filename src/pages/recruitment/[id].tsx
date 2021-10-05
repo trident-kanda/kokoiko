@@ -20,6 +20,7 @@ const [marker, setMarker] = useState<any>(null);
 const [apiReady, setReady] = useState(false);
 const [load, loadChange] = useState(false);
 const [mapError, mapErrorSet] = useState<null | string>(null);
+
 const id = ({user,
   recData,check}:any) => {
     const router = useRouter()
