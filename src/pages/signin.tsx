@@ -17,6 +17,7 @@ const Signin = () => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (session?.user) {
+          //supabaseのsqlに変更予定
           if (await checkUser(session?.user?.id)) {
             const id = createId();
             setUser(
